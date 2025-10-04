@@ -9,13 +9,13 @@ import { DMParagraph } from '@@/dialog-menu/DMParagraph'
 import type { SavedCanvas, StorageCanvas } from '@types'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { CommunityCanvas } from '@/components/community/CommunityCanvas'
+import { CommunityCanvas } from '@/components/community-page/CommunityCanvas'
 import { useCanvasesGallery } from '@/hooks/useCanvasesGallery'
 import { useDefaultPrevention } from '@/hooks/useDefaultPrevention'
 import { useDialogMenu } from '@/hooks/useDialogMenu'
 import { useEvent } from '@/hooks/useEvent'
 import { useResponsiveness } from '@/hooks/useResponsiveness'
-import { useSaveCanvases } from '@/hooks/useSaveCanvases'
+import { useStorageCanvases } from '@/hooks/useStorageCanvases'
 import { useRemoteStore } from '@/store/useRemoteStore'
 import { canvasParser } from '@/utils/canvasParser'
 import { dataFetch } from '@/utils/dataFetch'
@@ -30,7 +30,7 @@ export default function CommunityPage() {
   const { media } = useResponsiveness()
 
   useDefaultPrevention()
-  useSaveCanvases()
+  useStorageCanvases()
 
   const { canvasesGallery } = useCanvasesGallery({
     stateCanvases: publisedCanvases,

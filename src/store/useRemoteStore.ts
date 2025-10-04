@@ -18,7 +18,7 @@ interface RemoteStore {
   refreshUPI: (savedCanvases: SavedCanvas[]) => void
 
   nextUPIRefresh: number
-  setUPIRefreshCooldown: (value: UPI_COOLDOWN) => void
+  setUPIRefreshCooldown: (value: UPI_COOLDOWN | number) => void
 }
 
 export const useRemoteStore = create<RemoteStore>((set, get) => ({

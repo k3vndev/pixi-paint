@@ -6,14 +6,14 @@ import { ToolBar } from '@@/toolbar/Toolbar'
 import { useBodyClassName } from '@/hooks/useBodyClassName'
 import { useDefaultPrevention } from '@/hooks/useDefaultPrevention'
 import { useResetScroll } from '@/hooks/useResetScroll'
-import { useSaveCanvases } from '@/hooks/useSaveCanvases'
+import { useStorageCanvases } from '@/hooks/useStorageCanvases'
 
 export default function PaintPage() {
   useDefaultPrevention()
   useResetScroll()
   useBodyClassName('overflow-hidden')
 
-  useSaveCanvases()
+  useStorageCanvases()
 
   return (
     <main

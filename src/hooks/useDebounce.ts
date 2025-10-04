@@ -6,7 +6,7 @@ import { useFreshRefs } from './useFreshRefs'
  * Debounce hook
  * @param value Value to debounce
  * @param wait Debounce time in milliseconds
- * @param refresh If true, the debounce timer will not reset if the value changes while the timer is active
+ * @param refresh If true (default), the debounce timer will not reset if the value changes while the timer is active
  * @returns Debounced value
  */
 export const useDebounce = <T>(value: T, wait: number, refresh = true) => {

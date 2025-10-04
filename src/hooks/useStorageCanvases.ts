@@ -6,10 +6,11 @@ import { usePaintStore } from '@/store/usePaintStore'
 import { canvasParser } from '@/utils/canvasParser'
 import { getLocalStorageItem } from '@/utils/getLocalStorageItem'
 import { validateColor } from '@/utils/validateColor'
+import { useDebounce } from './useDebounce'
 import { useFreshRefs } from './useFreshRefs'
 import { useSaveItem } from './useSaveItem'
 
-export const useSaveCanvases = () => {
+export const useStorageCanvases = () => {
   const editingCanvasId = useCanvasesStore(s => s.editingCanvasId)
   const setEditingCanvasId = useCanvasesStore(s => s.setEditingCanvasId)
 
@@ -28,7 +29,9 @@ export const useSaveCanvases = () => {
 
   const hydrated = useCanvasesStore(s => s.hydrated)
   const setHydrated = useCanvasesStore(s => s.setHydrated)
+
   const editingPixels = usePaintStore(s => s.pixels)
+  const debouncedEditingPixels = useDebounce(editingPixels, 300)
 
   const refs = useFreshRefs({ hydrated, editingCanvasId })
 
@@ -105,11 +108,11 @@ export const useSaveCanvases = () => {
   // Handle draft or saved canvas update
   useEffect(() => {
     const { editingCanvasId, hydrated } = refs.current
-    if (!hydrated) return
+    if (!hydrated || !debouncedEditingPixels.length) return
 
     // Update draft
     if (editingCanvasId === null && hydrated) {
-      setDraftPixels(editingPixels)
+      setDraftPixels(debouncedEditingPixels)
       return
     }
 
@@ -120,11 +123,11 @@ export const useSaveCanvases = () => {
     setSavedCanvases(newCanvases => {
       newCanvases[index] = {
         ...newCanvases[index],
-        pixels: editingPixels
+        pixels: debouncedEditingPixels
       }
       return newCanvases
     })
-  }, [editingPixels])
+  }, [debouncedEditingPixels])
 
   return { savedCanvases, draft, hydrated }
 }
