@@ -95,12 +95,7 @@ export const CommunityCanvas = ({
         ${classNameStyles.canvasState}
       `)}
     >
-      <CanvasImage
-        className={`
-          size-full border-3 border-theme-20 rounded-xl
-        `}
-        dataUrl={dataUrl}
-      />
+      <CanvasImage className='size-full border-3 border-theme-20 rounded-xl' dataUrl={dataUrl} />
     </li>
   )
 }

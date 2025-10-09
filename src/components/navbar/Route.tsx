@@ -19,7 +19,7 @@ export const Route = ({ name, icon, path, isSelected = false, className = '', ..
 
   const style = isSelected
     ? 'bg-theme-bg border-theme-20 lg:py-3.5 py-2.5 translate-y-[4px]'
-    : 'active:text-theme-10/75 active:scale-90'
+    : 'active:brightness-60 active:scale-90'
 
   return (
     <button

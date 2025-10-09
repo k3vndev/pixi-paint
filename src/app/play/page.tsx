@@ -11,8 +11,8 @@ export default function PlayPage() {
         lg:px-0 md:px-16 sm:px-8 px-4
       `}
     >
-      {games.map((name, i) => (
-        <GameTile name={name} key={i} />
+      {games.map((name, index) => (
+        <GameTile {...{ name, index }} key={index} />
       ))}
     </main>
   )
