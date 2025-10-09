@@ -15,7 +15,7 @@ export const Tooltip = () => {
   const [isTowardsRight, setIsTowardsRight] = useState(true)
   const isUsingTouch = useTouchChecking()
 
-  const OFFSET_X = isUsingTouch ? 64 : 32
+  const OFFSET_X = isUsingTouch ? 48 : 32
 
   const show = () => setIsVisible(true)
   const hide = () => setIsVisible(false)

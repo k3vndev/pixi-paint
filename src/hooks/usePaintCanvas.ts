@@ -96,6 +96,11 @@ export const usePaintCanvas = () => {
   const handlePointer = (e: PointerEvent | TouchEvent) => {
     const { pixels, tool, selectedColor, isUsingTouch } = stateRefs.current
 
+    // Don't proceed if origin target is not a pixel
+    if (!(e.target as HTMLElement).getAttribute('data-pixel-index')) {
+      return
+    }
+
     // Dont proceed if it wasn't a valid click
     const clickBtn = clickButton.current
     if ((!clickIncludes(clickBtn, CB.LEFT, CB.RIGHT, CB.MIDDLE) && !isUsingTouch) || !canvasRef.current) {

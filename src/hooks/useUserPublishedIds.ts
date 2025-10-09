@@ -9,9 +9,10 @@ export const useUserPublishedIds = (fetchOnenter = false) => {
   const nextUPIRefresh = useRemoteStore(s => s.nextUPIRefresh)
   const refreshUserPublishedIds = useRemoteStore(s => s.refreshUPI)
   const setUPIRefreshCooldown = useRemoteStore(s => s.setUPIRefreshCooldown)
+  const savedCanvases = useCanvasesStore(s => s.savedCanvases)
 
   const hydrated = useCanvasesStore(s => s.hydrated)
-  const savedCanvasesRef = useFreshRefs(useCanvasesStore(s => s.savedCanvases))
+  const refs = useFreshRefs({ savedCanvases, nextUPIRefresh })
 
   const editingCanvasId = useCanvasesStore(s => s.editingCanvasId)
   const upiCooldownSet = useRef(false)
@@ -24,11 +25,15 @@ export const useUserPublishedIds = (fetchOnenter = false) => {
   })
 
   useEffect(() => {
+    const { nextUPIRefresh, savedCanvases } = refs.current
     const afterCooldown = Date.now() >= nextUPIRefresh
+
     if (fetchOnenter && hydrated && afterCooldown) {
-      requestAnimationFrame(() => refreshUserPublishedIds(savedCanvasesRef.current))
+      requestAnimationFrame(() => {
+        refreshUserPublishedIds(savedCanvases)
+      })
     }
-  }, [nextUPIRefresh, hydrated])
+  }, [hydrated])
 
   // biome-ignore format: <>
   useEffect(() => () => { upiCooldownSet.current = false }, [])

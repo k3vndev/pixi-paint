@@ -6,7 +6,7 @@ import { calcMiddlePixelsIndexes } from '@/utils/calcMiddlePixels'
 import { useBucketPixels } from './useBucketPixels'
 import { useFreshRefs } from './useFreshRefs'
 
-export const useSaveHandler = () => {
+export const useToolbarSaveHandler = () => {
   const setDraftPixels = useCanvasesStore(s => s.setDraftCanvasPixels)
   const draft = useCanvasesStore(s => s.draftCanvas)
   const editingCanvasId = useCanvasesStore(s => s.editingCanvasId)

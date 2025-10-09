@@ -25,8 +25,8 @@ export const DialogMenu = () => {
       }
     },
     defaultOriginGetter: () => {
-      const { clientWidth, clientHeight } = document.documentElement
-      return { x: clientWidth / 2, y: clientHeight / 2 }
+      const { innerWidth, innerHeight } = window
+      return { x: innerWidth / 2, y: innerHeight / 2 }
     }
   })
 

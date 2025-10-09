@@ -23,7 +23,7 @@ export const Option = ({ label, icon, action, closeMenu }: Props) => {
       onTouchEnd={handleClick}
       onClick={handleClick}
     >
-      {icon && <ColoredPixelatedImage icon={icon} className='bg-theme-10 size-12' />}
+      {icon && <ColoredPixelatedImage icon={icon} className='bg-theme-10 lg:size-12 size-10' />}
       <span className='text-theme-10 text-xl font-semibold text-nowrap'>{label}</span>
     </button>
   )

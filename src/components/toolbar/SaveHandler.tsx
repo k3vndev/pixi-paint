@@ -5,7 +5,7 @@ import { useConfetti } from '@/hooks/useConfetti'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useDialogMenu } from '@/hooks/useDialogMenu'
 import { useOverwriteDraft } from '@/hooks/useOverwriteDraft'
-import { useSaveHandler } from '@/hooks/useSaveHandler'
+import { useToolbarSaveHandler } from '@/hooks/useToolbarSaveHandler'
 import { useTooltip } from '@/hooks/useTooltip'
 import { usePaintStore } from '@/store/usePaintStore'
 import { ColoredPixelatedImage } from '../ColoredPixelatedImage'
@@ -18,7 +18,7 @@ interface Props {
 }
 
 export const SaveHandler = ({ spriteSize }: Props) => {
-  const { createNewSave, newBlankDraftAction, refs, isDraft, elementRef } = useSaveHandler()
+  const { createNewSave, newBlankDraftAction, refs, isDraft, elementRef } = useToolbarSaveHandler()
 
   const { startTimeout, stopTimeout } = useTimeout()
   const [hasRecentlySaved, setHasRecentlySaved] = useState(false)

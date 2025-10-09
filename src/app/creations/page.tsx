@@ -1,19 +1,19 @@
 'use client'
 
 import { CanvasesGrid } from '@@/canvases-grid/CanvasesGrid'
-import { CreationsCanvas } from '@@/my-creations/CreationsCanvas'
-import { CreationsHeader } from '@@/my-creations/CreationsHeader'
 import { useMemo, useRef } from 'react'
+import { CreationsCanvas } from '@/components/creations-page/CreationsCanvas'
+import { CreationsHeader } from '@/components/creations-page/CreationsHeader'
 import { CreationsContext } from '@/context/CreationsContext'
 import { useCanvasesGallery } from '@/hooks/useCanvasesGallery'
 import { useCanvasesSelection } from '@/hooks/useCanvasesSelection'
 import { useDefaultPrevention } from '@/hooks/useDefaultPrevention'
 import { useResetScroll } from '@/hooks/useResetScroll'
-import { useSaveCanvases } from '@/hooks/useSaveCanvases'
+import { useStorageCanvases } from '@/hooks/useStorageCanvases'
 import { useUserPublishedIds } from '@/hooks/useUserPublishedIds'
 
-export default function MyCreationsPage() {
-  const { savedCanvases, draft, hydrated } = useSaveCanvases()
+export default function CreationsPage() {
+  const { savedCanvases, draft, hydrated } = useStorageCanvases()
   const stateCanvases = useMemo(() => [draft, ...savedCanvases], [draft, savedCanvases])
   const { canvasesGallery } = useCanvasesGallery({ stateCanvases, loaded: hydrated })
   const canvasesSelection = useCanvasesSelection()
