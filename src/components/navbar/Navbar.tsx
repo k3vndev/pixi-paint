@@ -7,7 +7,7 @@ export const Navbar = () => (
   <aside
     className={`
       fixed top-0 left-0 h-[var(--navbar-height)] w-dvw ${Z_INDEX.NAVBAR}
-      bg-theme-bg border-b-4 border-b-theme-20 flex lg:gap-6 gap-4 justify-center items-end
+      bg-theme-bg border-b-4 border-b-theme-20 flex gap-3 justify-center items-end
     `}
   >
     <Routes />

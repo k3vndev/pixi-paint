@@ -22,8 +22,8 @@ Paint, share, and even play minigames — all inside this handcrafted web platfo
 
 ## 🔵 Screenshots  
 
-![User creations page showing a grid of pixelated paintings with a context menu and the share option selected.](/public/screenshots/mycreations-page.webp)  
-**My Creations** — Browse all your saved paintings in one cozy gallery. Share, publish, or revisit your pixel masterpieces instantly without fuss.  
+![User creations page showing a grid of pixelated paintings with a context menu and the share option selected.](/public/screenshots/creations-page.webp)  
+**Creations** — Browse all your saved paintings in one cozy gallery. Share, publish, or revisit your pixel masterpieces instantly without fuss.  
 
 ---
 ![Community gallery page showing an opened painting of a bee.](/public/screenshots/published.webp)  

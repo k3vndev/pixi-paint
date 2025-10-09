@@ -24,7 +24,7 @@ export const Route = ({ name, icon, path, isSelected = false, className = '', ..
   return (
     <button
       className={twMerge(`
-        lg:py-2.5 py-1.5 lg:px-12 md:px-8 sm:px-12 px-8 font-semibold text-xl 
+        lg:py-2.5 py-1.5 lg:px-10 md:px-12 px-8 font-semibold text-xl 
         bg-black text-theme-10 origin-bottom transition-all duration-75 text-nowrap
         rounded-t-2xl border-4 border-b-0 border-transparent 
         flex items-center lg:gap-2 gap-1

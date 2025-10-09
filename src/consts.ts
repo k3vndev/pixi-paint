@@ -95,7 +95,8 @@ export const ICON_NAMES = [
   'loading',
   'share',
   'brush',
-  'grid'
+  'grid',
+  'gamepad'
 ] as const
 
 export const EVENTS = {
@@ -146,5 +147,6 @@ export const API_ERRORS = {
 export const ROUTES: Route[] = [
   { name: 'Paint', icon: 'brush' },
   { name: 'Creations', icon: 'grid' },
-  { name: 'Community', icon: 'heart' }
+  { name: 'Community', icon: 'heart' },
+  { name: 'Play', icon: 'gamepad' }
 ] as const
