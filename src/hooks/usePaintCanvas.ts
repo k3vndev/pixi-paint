@@ -12,7 +12,6 @@ import { useTouchChecking } from './useTouchChecking'
 
 export const usePaintCanvas = () => {
   const pixels = usePaintStore(s => s.pixels)
-  const setPixels = usePaintStore(s => s.setPixels)
   const paintPixels = usePaintStore(s => s.paintPixels)
 
   const selectedColor = usePaintStore(s => s.primaryColor)
@@ -23,9 +22,6 @@ export const usePaintCanvas = () => {
   const setTool = usePaintStore(s => s.setTool)
 
   const draft = useCanvasesStore(s => s.draftCanvas)
-  const hydrated = useCanvasesStore(s => s.hydrated)
-  const editingCanvasId = useCanvasesStore(s => s.editingCanvasId)
-  const setEditingCanvasId = useCanvasesStore(s => s.setEditingCanvasId)
   const savedCanvases = useCanvasesStore(s => s.savedCanvases)
 
   const canvasRef = useRef<HTMLDivElement | null>(null)
@@ -55,26 +51,6 @@ export const usePaintCanvas = () => {
     draft,
     isUsingTouch
   })
-
-  // Load the correct painting on startup
-  useEffect(() => {
-    if (!hydrated) return
-    const { draft, savedCanvases } = stateRefs.current
-
-    // Check if the user left an open canvas
-    if (editingCanvasId) {
-      const foundCanvas = savedCanvases.find(c => c.id === editingCanvasId)
-
-      if (foundCanvas) {
-        setPixels(foundCanvas.pixels)
-        return
-      }
-    }
-
-    // If not, load draft
-    setEditingCanvasId(null)
-    setPixels(draft.pixels)
-  }, [hydrated])
 
   useEffect(() => {
     // Stop eraser behavior

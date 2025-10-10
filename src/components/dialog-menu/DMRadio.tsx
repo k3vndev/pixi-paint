@@ -1,6 +1,6 @@
 import type { Option, ReusableComponent } from '@types'
 import { twMerge } from 'tailwind-merge'
-import { ColoredPixelatedImage } from '../ColoredPixelatedImage'
+import { ColoredPixelatedImage } from '../images/ColoredPixelatedImage'
 import { DMLabel } from './DMLabel'
 
 type Props = {

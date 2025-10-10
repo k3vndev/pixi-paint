@@ -1,7 +1,7 @@
 import type { IconName, ReusableComponent } from '@types'
 import { twMerge } from 'tailwind-merge'
 import { useDialogMenu } from '@/hooks/useDialogMenu'
-import { ColoredPixelatedImage } from '../ColoredPixelatedImage'
+import { ColoredPixelatedImage } from '../images/ColoredPixelatedImage'
 
 export type Props = {
   children?: React.ReactNode

@@ -1,4 +1,3 @@
-import { CustomCursor } from '@@/CustomCursor'
 import { ContextMenu } from '@@/context-menu/ContextMenu'
 import { Navbar } from '@@/navbar/Navbar'
 import { Tooltip } from '@@/Tooltip'
@@ -6,6 +5,7 @@ import { DialogMenu } from '@dialog-menu/DialogMenu'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import Head from 'next/head'
+import { CustomCursor } from '@/components/cursor/CustomCursor'
 import { ICON_NAMES } from '@/consts'
 import { getIconPath } from '@/utils/getIconPath'
 

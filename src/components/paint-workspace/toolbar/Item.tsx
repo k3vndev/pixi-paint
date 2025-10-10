@@ -1,6 +1,6 @@
+import { ZoneWrapper } from '@@/ZoneWrapper'
 import type { ReusableComponent } from '@types'
 import { twMerge } from 'tailwind-merge'
-import { ZoneWrapper } from '../ZoneWrapper'
 
 type Props = {
   children: React.ReactNode

@@ -1,13 +1,17 @@
 import { CANVAS_RESOLUTION, HTML_IDS } from '@consts'
+import { CanvasPixel } from '@/components/paint-workspace/paint-canvas/CanvasPixel'
+import { usePaintWorkspaceContext } from '@/context/PaintWorkspaceContext'
 import { usePaintCanvas } from '@/hooks/usePaintCanvas'
 import { useCanvasPixelsAppearing } from '@/hooks/usePixelsAppearing'
 import { useUserPublishedIds } from '@/hooks/useUserPublishedIds'
 import { CanvasOutline } from './CanvasOutline'
-import { Pixel } from './Pixel'
 
 export const PaintCanvas = () => {
   const { pixels, canvasRef } = usePaintCanvas()
   const { visiblePixelsMap } = useCanvasPixelsAppearing(pixels)
+
+  const { disabled } = usePaintWorkspaceContext()
+  const disabledStyle = disabled ? 'pointer-events-none' : ''
 
   const gridTemplateColumns = `repeat(${CANVAS_RESOLUTION}, minmax(0, 1fr))`
   useUserPublishedIds()
@@ -17,7 +21,7 @@ export const PaintCanvas = () => {
       <div
         className={`
           content-center size-[var(--canvas-size)] grid 
-          overflow-clip rounded-md relative
+          overflow-clip rounded-md relative ${disabledStyle}
         `}
         style={{ gridTemplateColumns }}
         draggable={false}
@@ -25,7 +29,7 @@ export const PaintCanvas = () => {
         id={HTML_IDS.PAINT_CANVAS}
       >
         {pixels.map((pixelColor, i) => (
-          <Pixel isVisible={visiblePixelsMap[i]} color={pixelColor} index={i} key={i} />
+          <CanvasPixel isVisible={visiblePixelsMap[i]} color={pixelColor} index={i} key={i} />
         ))}
       </div>
     </CanvasOutline>

@@ -1,7 +1,7 @@
-import { ColoredPixelatedImage } from '@@/ColoredPixelatedImage'
 import type { IconName, ReusableComponent } from '@types'
 import { useState } from 'react'
 import { twMerge } from 'tailwind-merge'
+import { ColoredPixelatedImage } from '@/components/images/ColoredPixelatedImage'
 import { useTimeout } from '@/hooks/timer-handlers/useTimeout'
 import { useEvent } from '@/hooks/useEvent'
 

@@ -1,6 +1,5 @@
 'use client'
 
-import { ColoredPixelatedImage } from '@@/ColoredPixelatedImage'
 import { CanvasesGrid } from '@@/canvases-grid/CanvasesGrid'
 import { CanvasesGridHeader } from '@@/canvases-grid/CanvasesGridHeader'
 import { DMButton } from '@@/dialog-menu/DMButton'
@@ -10,6 +9,7 @@ import type { SavedCanvas, StorageCanvas } from '@types'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { CommunityCanvas } from '@/components/community-page/CommunityCanvas'
+import { ColoredPixelatedImage } from '@/components/images/ColoredPixelatedImage'
 import { useCanvasesGallery } from '@/hooks/useCanvasesGallery'
 import { useDefaultPrevention } from '@/hooks/useDefaultPrevention'
 import { useDialogMenu } from '@/hooks/useDialogMenu'
@@ -102,13 +102,13 @@ export default function CommunityPage() {
       {canvasesGallery.length ? (
         <>
           <CanvasesGridHeader className='h-16' />
-          <CanvasesGrid className='2xl:grid-cols-5'>
+          <CanvasesGrid className='2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-3'>
             {canvasesGallery.map(c => (
               <CommunityCanvas
                 {...c}
                 setSearchParamsId={setSearchParamsId}
                 initiallyOpenMenu={initiallyOpenMenuId === c.id}
-                verticalMode={!media.md}
+                verticalMode={!media.lg}
                 key={c.id}
               />
             ))}

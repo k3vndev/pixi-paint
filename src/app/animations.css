@@ -26,7 +26,6 @@
     translate: calc(var(--slide-anim-move) * -1);
   }
   to {
-    opacity: 1;
     translate: 0;
     filter: blur(0);
   }
@@ -38,7 +37,6 @@
     translate: var(--slide-anim-move);
   }
   to {
-    opacity: 1;
     translate: 0;
     filter: blur(0);
   }

@@ -1,9 +1,9 @@
 import { MenuBase } from '@@/MenuBase'
 import type { Origin, ReusableComponent, TransformOrigin } from '@types'
-import { useContext, useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { HexColorPicker } from 'react-colorful'
 import { HTML_IDS } from '@/consts'
-import { ColorSelectorContext } from '@/context/ColorSelectorContext'
+import { useColorSelectorContext } from '@/context/ColorSelectorContext'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useEvent } from '@/hooks/useEvent'
 import { useFreshRefs } from '@/hooks/useFreshRefs'
@@ -19,7 +19,7 @@ interface Props {
 }
 
 export const PickerMenu = ({ parentRef }: Props) => {
-  const { pickerColor, setPickerColor, lastValidColor, setMenuIsOpen } = useContext(ColorSelectorContext)
+  const { pickerColor, setPickerColor, lastValidColor, setMenuIsOpen } = useColorSelectorContext()
 
   const primaryColor = usePaintStore(s => s.primaryColor)
   const setPrimaryColor = usePaintStore(s => s.setPrimaryColor)

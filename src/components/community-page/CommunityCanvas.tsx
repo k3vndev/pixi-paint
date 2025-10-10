@@ -4,11 +4,12 @@ import { useEffect, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { OverwriteDraftMenu } from '@/components/dialog-menu/premade-menus/OverwriteDraftMenu'
 import { useDialogMenu } from '@/hooks/useDialogMenu'
+import { useEvent } from '@/hooks/useEvent'
 import { useFreshRefs } from '@/hooks/useFreshRefs'
 import { useGridCanvasStyles } from '@/hooks/useGridCanvasStyles'
 import { useOverwriteDraft } from '@/hooks/useOverwriteDraft'
 import { usePressed } from '@/hooks/usePressed'
-import { CanvasImage } from '../CanvasImage'
+import { CanvasImage } from '../images/CanvasImage'
 import { CommunityCanvasViewMenu } from './CommunityCanvasViewMenu'
 
 interface Props extends CommunityCanvasType {
@@ -86,6 +87,8 @@ export const CommunityCanvas = ({
       )
     }
   }
+
+  useEvent('resize', closeMenu, { target: 'window' })
 
   return (
     <li

@@ -1,7 +1,7 @@
 import { GameTile } from '@/components/play-page/GameTile'
 
 export default function PlayPage() {
-  const games = ['Speed Paint', 'Mirror Paint', 'Topic Paint']
+  const games = ['Speed Paint', 'Half Paint', 'Theme Paint']
 
   return (
     <main

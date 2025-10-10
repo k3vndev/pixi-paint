@@ -1,4 +1,4 @@
-import { ColoredPixelatedImage } from '../ColoredPixelatedImage'
+import { ColoredPixelatedImage } from '../images/ColoredPixelatedImage'
 
 interface Props {
   canvasIsSelected: boolean

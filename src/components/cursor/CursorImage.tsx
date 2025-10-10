@@ -2,8 +2,8 @@ import { SPRITES_RESOLUTION, SPRITES_SIZE } from '@consts'
 import type { Cursor as CursorType } from '@types'
 import { twMerge } from 'tailwind-merge'
 import { usePaintStore } from '@/store/usePaintStore'
-import { ColoredPixelatedImage } from './ColoredPixelatedImage'
-import { PixelatedImage } from './PixelatedImage'
+import { ColoredPixelatedImage } from '../images/ColoredPixelatedImage'
+import { PixelatedImage } from '../images/PixelatedImage'
 
 type Props = {
   alt: string
