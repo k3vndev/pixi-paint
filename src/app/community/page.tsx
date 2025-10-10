@@ -102,13 +102,13 @@ export default function CommunityPage() {
       {canvasesGallery.length ? (
         <>
           <CanvasesGridHeader className='h-16' />
-          <CanvasesGrid className='2xl:grid-cols-5'>
+          <CanvasesGrid className='2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-3'>
             {canvasesGallery.map(c => (
               <CommunityCanvas
                 {...c}
                 setSearchParamsId={setSearchParamsId}
                 initiallyOpenMenu={initiallyOpenMenuId === c.id}
-                verticalMode={!media.md}
+                verticalMode={!media.lg}
                 key={c.id}
               />
             ))}

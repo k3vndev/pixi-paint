@@ -120,19 +120,21 @@ export const CommunityCanvasViewMenu = ({
     }
   ]
 
+  const zoneClassname = 'not-lg:flex-col not-sm:min-w-[calc(100vw-8rem)]'
+
   return verticalMode ? (
-    <DMZone>
+    <DMZone className={zoneClassname}>
       <Header />
-      <DMCanvasImage className='size-48' dataUrl={dataUrl} />
+      <DMCanvasImage className='md:size-64' dataUrl={dataUrl} />
       <Buttons buttonsData={buttons} />
     </DMZone>
   ) : (
-    <DMZone className='gap-16 items-start'>
+    <DMZone className={`gap-16 items-start ${zoneClassname}`}>
       <DMZone className='flex-col items-start'>
         <Header />
         <Buttons buttonsData={buttons} />
       </DMZone>
-      <DMCanvasImage className='md:size-100' dataUrl={dataUrl} />
+      <DMCanvasImage className='lg:size-100' dataUrl={dataUrl} />
     </DMZone>
   )
 }
@@ -145,7 +147,7 @@ const Header = () => (
 
 const Buttons = ({ buttonsData }: { buttonsData: DMButtonProps[] }) => {
   return (
-    <DMZoneButtons className='not-md:flex-col md:flex-col md:items-start'>
+    <DMZoneButtons className='not-lg:flex-col lg:flex-col lg:items-start'>
       {buttonsData.map((btn, i) => (
         <DMButton key={i} {...btn} />
       ))}
