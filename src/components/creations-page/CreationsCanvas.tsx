@@ -1,9 +1,9 @@
 import { BLANK_DRAFT, CANVASES_TRANSITION_MS as CANVASES_TRANSITION_DURATION, HTML_DATA_IDS } from '@consts'
 import type { ContextMenuOption, GalleryCanvas } from '@types'
 import { useRouter } from 'next/navigation'
-import { useContext, useMemo, useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
-import { CreationsContext, type DraggingSelection } from '@/context/CreationsContext'
+import { type DraggingSelection, useCreationsContext } from '@/context/CreationsContext'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useDialogMenu } from '@/hooks/useDialogMenu'
 import { useEvent } from '@/hooks/useEvent'
@@ -48,7 +48,7 @@ export const CreationsCanvas = ({ id, pixels, dataUrl, isVisible }: GalleryCanva
     toggleCanvas,
     draggingSelection,
     setDraggingSelection
-  } = useContext(CreationsContext)
+  } = useCreationsContext()
 
   const isOnSelectionMode = isOnGlobalSelectionMode && !isDraft
   const canvasIsSelected = isOnSelectionMode && isCanvasSelected(id)

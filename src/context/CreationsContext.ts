@@ -1,9 +1,9 @@
 import type React from 'react'
-import { createContext } from 'react'
+import { createContext, useContext } from 'react'
 
 export type DraggingSelection = 'selecting' | 'deselecting' | null
 
-type CreationsContext = {
+interface CreationsContext {
   isOnSelectionMode: boolean
   enableSelectionMode: () => void
   disableSelectionMode: () => void
@@ -43,3 +43,5 @@ export const CreationsContext = createContext<CreationsContext>({
   hasTallHeader: false,
   setHasTallHeader: () => {}
 })
+
+export const useCreationsContext = () => useContext(CreationsContext)

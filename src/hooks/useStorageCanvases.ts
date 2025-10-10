@@ -6,8 +6,6 @@ import { usePaintStore } from '@/store/usePaintStore'
 import { canvasParser } from '@/utils/canvasParser'
 import { getLocalStorageItem } from '@/utils/getLocalStorageItem'
 import { validateColor } from '@/utils/validateColor'
-import { useDebounce } from './useDebounce'
-import { useFreshRefs } from './useFreshRefs'
 import { useSaveItem } from './useSaveItem'
 
 export const useStorageCanvases = () => {
@@ -29,11 +27,6 @@ export const useStorageCanvases = () => {
 
   const hydrated = useCanvasesStore(s => s.hydrated)
   const setHydrated = useCanvasesStore(s => s.setHydrated)
-
-  const editingPixels = usePaintStore(s => s.pixels)
-  const debouncedEditingPixels = useDebounce(editingPixels, 300)
-
-  const refs = useFreshRefs({ hydrated, editingCanvasId })
 
   // Hydrate by loading data from local storage
   useEffect(() => {
@@ -104,30 +97,6 @@ export const useStorageCanvases = () => {
     watchItem: selectedColors,
     key: LS_KEYS.SELECTED_COLORS
   })
-
-  // Handle draft or saved canvas update
-  useEffect(() => {
-    const { editingCanvasId, hydrated } = refs.current
-    if (!hydrated || !debouncedEditingPixels.length) return
-
-    // Update draft
-    if (editingCanvasId === null && hydrated) {
-      setDraftPixels(debouncedEditingPixels)
-      return
-    }
-
-    // Update saved
-    const index = savedCanvases.findIndex(c => c.id === editingCanvasId)
-    if (index === -1) return
-
-    setSavedCanvases(newCanvases => {
-      newCanvases[index] = {
-        ...newCanvases[index],
-        pixels: debouncedEditingPixels
-      }
-      return newCanvases
-    })
-  }, [debouncedEditingPixels])
 
   return { savedCanvases, draft, hydrated }
 }

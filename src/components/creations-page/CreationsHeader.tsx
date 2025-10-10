@@ -1,6 +1,6 @@
 import type { IconName, ReusableComponent } from '@types'
-import { useCallback, useContext, useEffect } from 'react'
-import { CreationsContext } from '@/context/CreationsContext'
+import { useCallback, useEffect } from 'react'
+import { useCreationsContext } from '@/context/CreationsContext'
 import { useDialogMenu } from '@/hooks/useDialogMenu'
 import { useEvent } from '@/hooks/useEvent'
 import { useCanvasesStore } from '@/store/useCanvasesStore'
@@ -23,7 +23,7 @@ export const CreationsHeader = ({ className = '', ...props }: ReusableComponent)
     deselectAllCanvases,
     disableSelectionMode,
     setHasTallHeader
-  } = useContext(CreationsContext)
+  } = useCreationsContext()
 
   useEvent(
     'dragenter',

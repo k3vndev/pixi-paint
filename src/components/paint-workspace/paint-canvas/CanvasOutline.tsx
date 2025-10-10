@@ -1,35 +1,36 @@
 import type { ReusableComponent } from '@types'
-import { useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
-import { useCanvasesStore } from '@/store/useCanvasesStore'
+import { usePaintWorkspaceContext } from '@/context/PaintWorkspaceContext'
 
 type Props = {
   children?: React.ReactNode
 } & ReusableComponent
 
-export const CanvasOutline = ({ children, className = '' }: Props) => {
-  const editingCanvasId = useCanvasesStore(s => s.editingCanvasId)
-  const [backgroundSize, setBackgroundSize] = useState(BG_SIZES.HIDDEN)
+export interface CanvasOutlineConfig {
+  visible?: boolean
+  className?: string
+  style?: React.CSSProperties
+}
 
-  useEffect(() => {
-    const isDraft = editingCanvasId === null
-    setBackgroundSize(isDraft ? BG_SIZES.HIDDEN : BG_SIZES.SHOWN)
-  }, [editingCanvasId])
+export const CanvasOutline = ({ children, className = '' }: Props) => {
+  const { outlineConfig } = usePaintWorkspaceContext()
+  const backgroundSize = outlineConfig.visible ? BG_SIZES.SHOWN : BG_SIZES.HIDDEN
 
   return (
     <div
       className={twMerge(`
-        size-[calc(var(--canvas-size)+(var(--canvas-outline-w)*2))]
-        overflow-clip rounded-2xl relative 
-        flex justify-center items-center p-[calc(var(--canvas-outline-w)*0.4)] ${className} 
+        relative size-[calc(var(--canvas-size)+(var(--canvas-outline-w)*2))]
+        overflow-clip rounded-2xl flex justify-center items-center
+        p-[calc(var(--canvas-outline-w)*0.4)] ${className} 
       `)}
     >
       <div
-        className={`
-          bg-gradient-to-r from-theme-10 to-theme-20 ${backgroundSize}
-          -z-10 absolute rounded-full blur-sm transition-all ease-in-out
-          top-1/2 left-1/2 -translate-1/2 animate-spin pointer-events-none
-        `}
+        className={twMerge(`
+          bg-gradient-to-r from-theme-10 to-theme-20 -z-10 pointer-events-none
+          absolute rounded-full blur-sm  ease-in-out top-1/2 left-1/2 -translate-1/2 
+          animate-spin transition-all ${backgroundSize} ${outlineConfig.className ?? ''}
+        `)}
+        style={outlineConfig.style}
       />
       <div
         className={`

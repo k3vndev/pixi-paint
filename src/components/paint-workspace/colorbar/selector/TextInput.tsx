@@ -1,7 +1,7 @@
 import type { IconName } from '@types'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ColoredPixelatedImage } from '@/components/images/ColoredPixelatedImage'
-import { ColorSelectorContext } from '@/context/ColorSelectorContext'
+import { useColorSelectorContext } from '@/context/ColorSelectorContext'
 import { useTimeout } from '@/hooks/timer-handlers/useTimeout'
 import { useEvent } from '@/hooks/useEvent'
 import { useFreshRefs } from '@/hooks/useFreshRefs'
@@ -9,7 +9,7 @@ import { usePaintStore } from '@/store/usePaintStore'
 import { validateColor } from '@/utils/validateColor'
 
 export const TextInput = () => {
-  const { pickerColor, setPickerColor, lastValidColor, menuIsOpen } = useContext(ColorSelectorContext)
+  const { pickerColor, setPickerColor, lastValidColor, menuIsOpen } = useColorSelectorContext()
   const [buttonIcon, setButtonIcon] = useState<IconName>('clone')
   const { startTimeout, stopTimeout } = useTimeout()
   const buttonRef = useRef<HTMLButtonElement>(null)

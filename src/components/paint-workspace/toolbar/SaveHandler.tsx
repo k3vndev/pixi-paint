@@ -3,6 +3,7 @@ import { CLICK_BUTTON, SPRITES_RESOLUTION } from '@consts'
 import { useState } from 'react'
 import { ColoredPixelatedImage } from '@/components/images/ColoredPixelatedImage'
 import { PixelatedImage } from '@/components/images/PixelatedImage'
+import { useToolbarContext } from '@/context/ToolbarContext'
 import { useTimeout } from '@/hooks/timer-handlers/useTimeout'
 import { useConfetti } from '@/hooks/useConfetti'
 import { useContextMenu } from '@/hooks/useContextMenu'
@@ -13,12 +14,9 @@ import { useTooltip } from '@/hooks/useTooltip'
 import { usePaintStore } from '@/store/usePaintStore'
 import { Item } from './Item'
 
-interface Props {
-  spriteSize: number
-}
-
-export const SaveHandler = ({ spriteSize }: Props) => {
+export const SaveHandler = () => {
   const { createNewSave, newBlankDraftAction, refs, isDraft, elementRef } = useToolbarSaveHandler()
+  const { spriteSize } = useToolbarContext()
 
   const { startTimeout, stopTimeout } = useTimeout()
   const [hasRecentlySaved, setHasRecentlySaved] = useState(false)

@@ -1,7 +1,7 @@
 import { DEFAULT_PRI_COLOR } from '@consts'
-import { createContext } from 'react'
+import { createContext, useContext } from 'react'
 
-type ColorSelectorContext = {
+interface ColorSelectorContext {
   menuIsOpen: boolean
   setMenuIsOpen: React.Dispatch<React.SetStateAction<boolean>>
   pickerColor: string
@@ -16,3 +16,5 @@ export const ColorSelectorContext = createContext<ColorSelectorContext>({
   setPickerColor: () => {},
   lastValidColor: { current: DEFAULT_PRI_COLOR }
 })
+
+export const useColorSelectorContext = () => useContext(ColorSelectorContext)
