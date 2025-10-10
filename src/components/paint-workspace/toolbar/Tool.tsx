@@ -1,11 +1,11 @@
 import type { ToolbarTool } from '@types'
 import { useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
+import { CursorImage } from '@/components/cursor/CursorImage'
 import { useActionOnKey } from '@/hooks/useActionOnKey'
 import { useTooltip } from '@/hooks/useTooltip'
 import { usePaintStore } from '@/store/usePaintStore'
 import { parseKebabName } from '@/utils/parseKebabName'
-import { CursorImage } from '../CursorImage'
 import { Item } from './Item'
 
 type Props = {

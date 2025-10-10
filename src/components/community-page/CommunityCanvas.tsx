@@ -8,7 +8,7 @@ import { useFreshRefs } from '@/hooks/useFreshRefs'
 import { useGridCanvasStyles } from '@/hooks/useGridCanvasStyles'
 import { useOverwriteDraft } from '@/hooks/useOverwriteDraft'
 import { usePressed } from '@/hooks/usePressed'
-import { CanvasImage } from '../CanvasImage'
+import { CanvasImage } from '../images/CanvasImage'
 import { CommunityCanvasViewMenu } from './CommunityCanvasViewMenu'
 
 interface Props extends CommunityCanvasType {

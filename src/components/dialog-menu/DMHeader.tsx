@@ -1,6 +1,6 @@
 import type { IconName, ReusableComponent } from '@types'
 import { twMerge } from 'tailwind-merge'
-import { ColoredPixelatedImage } from '../ColoredPixelatedImage'
+import { ColoredPixelatedImage } from '../images/ColoredPixelatedImage'
 
 type Props = {
   children?: React.ReactNode

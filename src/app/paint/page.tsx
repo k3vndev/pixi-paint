@@ -1,8 +1,6 @@
 'use client'
 
-import { Colorbar } from '@@/colorbar/Colorbar'
-import { PaintCanvas } from '@@/PaintCanvas'
-import { ToolBar } from '@@/toolbar/Toolbar'
+import { PaintWorkspace } from '@@/paint-workspace/PaintWorkspace'
 import { useBodyClassName } from '@/hooks/useBodyClassName'
 import { useDefaultPrevention } from '@/hooks/useDefaultPrevention'
 import { useResetScroll } from '@/hooks/useResetScroll'
@@ -22,9 +20,7 @@ export default function PaintPage() {
         flex justify-center items-center
       `}
     >
-      <PaintCanvas />
-      <ToolBar />
-      <Colorbar />
+      <PaintWorkspace />
     </main>
   )
 }

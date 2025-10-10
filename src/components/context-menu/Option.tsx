@@ -1,5 +1,5 @@
 import type { ContextMenuOption } from '@types'
-import { ColoredPixelatedImage } from '../ColoredPixelatedImage'
+import { ColoredPixelatedImage } from '../images/ColoredPixelatedImage'
 
 type Props = {
   closeMenu: () => void

@@ -1,7 +1,7 @@
 import type { IconName, ReusableComponent } from '@types'
 import { useRouter } from 'next/navigation'
 import { twMerge } from 'tailwind-merge'
-import { ColoredPixelatedImage } from '../ColoredPixelatedImage'
+import { ColoredPixelatedImage } from '../images/ColoredPixelatedImage'
 
 type Props = {
   name: string

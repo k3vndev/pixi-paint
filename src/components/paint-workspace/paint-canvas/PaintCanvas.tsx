@@ -1,9 +1,9 @@
 import { CANVAS_RESOLUTION, HTML_IDS } from '@consts'
+import { CanvasPixel } from '@/components/paint-workspace/paint-canvas/CanvasPixel'
 import { usePaintCanvas } from '@/hooks/usePaintCanvas'
 import { useCanvasPixelsAppearing } from '@/hooks/usePixelsAppearing'
 import { useUserPublishedIds } from '@/hooks/useUserPublishedIds'
 import { CanvasOutline } from './CanvasOutline'
-import { Pixel } from './Pixel'
 
 export const PaintCanvas = () => {
   const { pixels, canvasRef } = usePaintCanvas()
@@ -25,7 +25,7 @@ export const PaintCanvas = () => {
         id={HTML_IDS.PAINT_CANVAS}
       >
         {pixels.map((pixelColor, i) => (
-          <Pixel isVisible={visiblePixelsMap[i]} color={pixelColor} index={i} key={i} />
+          <CanvasPixel isVisible={visiblePixelsMap[i]} color={pixelColor} index={i} key={i} />
         ))}
       </div>
     </CanvasOutline>

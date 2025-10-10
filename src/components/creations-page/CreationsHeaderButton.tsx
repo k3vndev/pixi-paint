@@ -1,5 +1,5 @@
 import { HTML_DATA_IDS } from '@consts'
-import { ColoredPixelatedImage } from '../ColoredPixelatedImage'
+import { ColoredPixelatedImage } from '../images/ColoredPixelatedImage'
 import type { CreationsButtonType } from './CreationsHeader'
 
 type Props = {

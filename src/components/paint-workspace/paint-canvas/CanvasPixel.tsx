@@ -9,7 +9,7 @@ interface Props {
   isVisible: boolean
 }
 
-export const Pixel = ({ color, index, isVisible }: Props) => {
+export const CanvasPixel = ({ color, index, isVisible }: Props) => {
   const showGrid = useCanvasesStore(s => s.showGrid)
   const [outerPadding, innerRoundness] = showGrid ? ['p-[2px]', 'rounded-[1px]'] : ['', '']
 

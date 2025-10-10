@@ -1,4 +1,4 @@
-import { ZoneWrapper } from '../ZoneWrapper'
+import { ZoneWrapper } from '@@/ZoneWrapper'
 import { Palette } from './Palette'
 import { Selector } from './selector/Selector'
 

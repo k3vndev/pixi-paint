@@ -44,8 +44,8 @@ Paint, share, and even play minigames — all inside this handcrafted web platfo
 
 - Playable Minigames (up to 3) 🎮
   - Speed Paint: Peek at a painting, then recreate it as fast as you can.
-  - Mirror Paint: Complete the missing half of a painting.
-  - Topic Paint: Paint a given topic and earn points based on your creativity.
+  - Half Paint: Complete the missing half of a painting.
+  - Theme Paint: Paint a given topic and earn points based on your creativity.
 
 - Undo/redo functionality for smoother painting.
 - Spanish language support.  

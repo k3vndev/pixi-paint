@@ -1,6 +1,6 @@
-import { ColoredPixelatedImage } from '@@/ColoredPixelatedImage'
 import type { IconName } from '@types'
 import { useContext, useEffect, useRef, useState } from 'react'
+import { ColoredPixelatedImage } from '@/components/images/ColoredPixelatedImage'
 import { ColorSelectorContext } from '@/context/ColorSelectorContext'
 import { useTimeout } from '@/hooks/timer-handlers/useTimeout'
 import { useEvent } from '@/hooks/useEvent'

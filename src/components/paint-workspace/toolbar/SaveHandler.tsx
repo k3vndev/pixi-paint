@@ -1,5 +1,8 @@
+import { OverwriteDraftMenu } from '@@/dialog-menu/premade-menus/OverwriteDraftMenu'
 import { CLICK_BUTTON, SPRITES_RESOLUTION } from '@consts'
 import { useState } from 'react'
+import { ColoredPixelatedImage } from '@/components/images/ColoredPixelatedImage'
+import { PixelatedImage } from '@/components/images/PixelatedImage'
 import { useTimeout } from '@/hooks/timer-handlers/useTimeout'
 import { useConfetti } from '@/hooks/useConfetti'
 import { useContextMenu } from '@/hooks/useContextMenu'
@@ -8,9 +11,6 @@ import { useOverwriteDraft } from '@/hooks/useOverwriteDraft'
 import { useToolbarSaveHandler } from '@/hooks/useToolbarSaveHandler'
 import { useTooltip } from '@/hooks/useTooltip'
 import { usePaintStore } from '@/store/usePaintStore'
-import { ColoredPixelatedImage } from '../ColoredPixelatedImage'
-import { OverwriteDraftMenu } from '../dialog-menu/premade-menus/OverwriteDraftMenu'
-import { PixelatedImage } from '../PixelatedImage'
 import { Item } from './Item'
 
 interface Props {

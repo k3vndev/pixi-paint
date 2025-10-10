@@ -3,7 +3,7 @@ import { useMemo, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { usePerspectiveHover } from '@/hooks/usePerspectiveHover'
 import { getPixelsDataUrl } from '@/utils/getPixelsDataUrl'
-import { CanvasImage } from '../CanvasImage'
+import { CanvasImage } from '../images/CanvasImage'
 
 type Props = {
   pixels?: string[]
