@@ -107,6 +107,13 @@
   /* Slide animations */
   --animate-slide-in-left: slide-in-left var(--slide-anim-timing) both;
   --animate-slide-in-right: slide-in-right var(--slide-anim-timing) both;
+  --animate-slide-in-top: slide-in-top var(--slide-anim-timing) both;
+  --animate-slide-in-bottom: slide-in-bottom var(--slide-anim-timing) both;
+
+  --animate-slide-out-left: slide-out-left var(--slide-anim-timing) both;
+  --animate-slide-out-right: slide-out-right var(--slide-anim-timing) both;
+  --animate-slide-out-top: slide-out-top var(--slide-anim-timing) both;
+  --animate-slide-out-bottom: slide-out-bottom var(--slide-anim-timing) both;
 }
 
 .button {

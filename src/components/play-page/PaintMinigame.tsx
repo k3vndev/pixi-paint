@@ -1,13 +1,20 @@
-import { BLANK_PIXELS, COLOR_PALETTE, Z_INDEX } from '@consts'
+import { BLANK_PIXELS, CANVAS_PIXELS_LENGHT, COLOR_PALETTE } from '@consts'
 import { useEffect, useState } from 'react'
+import { useBucketPixels } from '@/hooks/useBucketPixels'
+import { useDialogMenu } from '@/hooks/useDialogMenu'
 import { useFreshRefs } from '@/hooks/useFreshRefs'
 import { usePaintStore } from '@/store/usePaintStore'
+import { calcMiddlePixelsIndexes } from '@/utils/calcMiddlePixels'
 import { calcPaintingsSimilarity } from '@/utils/calcPaintingsSimilarity'
 import { waitForSeconds } from '@/utils/waitForSeconds'
+import { DMCanvasImage } from '../dialog-menu/DMCanvasImage'
+import { DMHeader } from '../dialog-menu/DMHeader'
+import { DMParagraph } from '../dialog-menu/DMParagraph'
+import { DMZone } from '../dialog-menu/DMZone'
 import { PaintWorkspace } from '../paint-workspace/PaintWorkspace'
+import { TitleDisplay, useTitleDisplay } from './TitleDisplay'
 
-export const SpeedPaintGame = () => {
-  const [displayMessages, setDisplayMessages] = useState<string[]>([])
+export const PaintMinigame = () => {
   const [isShowingCanvas, setIsShowingCanvas] = useState(false)
   const [canvasIsDisabled, setCanvasIsDisabled] = useState(true)
 
@@ -20,6 +27,24 @@ export const SpeedPaintGame = () => {
   const setSecondaryColor = usePaintStore(s => s.setSecondaryColor)
 
   const refs = useFreshRefs({ editingPixels })
+
+  const { displayTitle, hideTitle, titleState } = useTitleDisplay()
+  const { paintBucketPixels } = useBucketPixels()
+  const { openMenu } = useDialogMenu()
+
+  const animateSetPixels = (pixels: string[]) =>
+    paintBucketPixels({
+      startIndexes: calcMiddlePixelsIndexes(),
+      paintGenerationAction: generation => {
+        const { editingPixels } = refs.current
+        const editingPixelsClone = structuredClone(editingPixels)
+
+        for (const { index } of generation) {
+          editingPixelsClone[index] = pixels[index]
+        }
+        setEditingPixels(editingPixelsClone)
+      }
+    })
 
   useEffect(() => {
     setPrimaryColor(COLOR_PALETTE.RED)
@@ -48,23 +73,27 @@ export const SpeedPaintGame = () => {
 
   const mainSequence = async () => {
     await waitForSeconds(0.1)
-    setEditingPixels(BLANK_PIXELS)
+
+    setEditingPixels(SEMI_TRANSPARENT_PIXELS)
     setIsShowingCanvas(true)
 
     await waitForSeconds(0.4)
-    setDisplayMessages(['MEMORIZE', 'THE PAINTING'])
-    await waitForSeconds(2)
-    setDisplayMessages([])
-    await waitForSeconds(0.2)
 
-    setEditingPixels(MOCK_PIXELS)
+    displayTitle('MEMORIZE', 'THIS PAINTING...')
+    await waitForSeconds(2)
+    hideTitle()
+
+    await waitForSeconds(0.1)
+
+    animateSetPixels(MOCK_PIXELS)
 
     runTimer(3)
     await waitForSeconds(3)
 
     // Run timer here
 
-    setEditingPixels(BLANK_PIXELS)
+    animateSetPixels(BLANK_PIXELS)
+
     setCanvasIsDisabled(false)
 
     runTimer(45)
@@ -77,42 +106,35 @@ export const SpeedPaintGame = () => {
     await waitForSeconds(1.5)
 
     // Calculate results here
-    console.log('Total score:', calcPaintingsSimilarity(MOCK_PIXELS, refs.current.editingPixels))
+    const score = calcPaintingsSimilarity(MOCK_PIXELS, refs.current.editingPixels)
+    openMenu(
+      <>
+        <DMHeader icon='gamepad'>Your results</DMHeader>
+        <DMParagraph>You got a score of {(score * 100).toFixed(0)}%</DMParagraph>
+
+        <DMZone className='flex gap-4'>
+          <DMCanvasImage pixels={refs.current.editingPixels} />
+          <DMCanvasImage pixels={MOCK_PIXELS} />
+        </DMZone>
+      </>
+    )
   }
 
   return (
     <>
-      {displayMessages.length > 0 && (
-        <span
-          className={`
-            absolute text-theme-10 font-semibold text-5xl
-            animate-slide-in-left ${Z_INDEX.TOOLTIP}
-            bg-theme-bg/90 py-5 px-6 rounded-2xl border-2 backdrop-blur-xl border-theme-20 shadow-card
-          `}
-        >
-          <div
-            className={`
-              flex flex-col gap-1 items-center px-8
-              border-l-4 border-r-4 border-theme-10/25 border-dashed
-            `}
-          >
-            {displayMessages.map((line, i) => (
-              <span key={i} className={`${!i ? 'font-black' : ''}`}>
-                {line}
-              </span>
-            ))}
-          </div>
-        </span>
-      )}
-
       {isShowingCanvas && <PaintWorkspace disabled={canvasIsDisabled} hideColorbarSelector />}
 
+      <TitleDisplay {...titleState} />
+
+      {/* Temporary timer*/}
       {timer > 0 && (
         <span className='fixed right-8 bottom-8 text-xl text-theme-10 font-mono'>{timer.toFixed(2)}</span>
       )}
     </>
   )
 }
+
+const SEMI_TRANSPARENT_PIXELS = Array(CANVAS_PIXELS_LENGHT).fill('#ffffff32')
 
 const MOCK_PIXELS = [
   '#187a23',

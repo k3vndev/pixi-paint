@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { GameTile } from '@/components/play-page/GameTile'
-import { SpeedPaintGame } from '@/components/play-page/SpeedPaintGame'
+import { PaintMinigame } from '@/components/play-page/PaintMinigame'
 import { useDefaultPrevention } from '@/hooks/useDefaultPrevention'
 
 interface Game {
@@ -15,7 +15,7 @@ export default function PlayPage() {
   useDefaultPrevention()
 
   const games: Game[] = [
-    { name: 'Speed Paint', component: <SpeedPaintGame /> },
+    { name: 'Speed Paint', component: <PaintMinigame /> },
     { name: 'Half Paint' },
     { name: 'Theme Paint' }
   ]
