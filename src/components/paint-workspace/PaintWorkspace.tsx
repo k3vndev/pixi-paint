@@ -8,14 +8,20 @@ interface Props {
   disabled?: boolean
   toolbarExtraItem?: React.ReactNode
   outlineConfig?: CanvasOutlineConfig
+  hideColorbarSelector?: boolean
 }
 
-export const PaintWorkspace = ({ disabled = false, outlineConfig = {}, toolbarExtraItem }: Props) => {
+export const PaintWorkspace = ({
+  disabled = false,
+  outlineConfig = {},
+  toolbarExtraItem,
+  hideColorbarSelector = false
+}: Props) => {
   const disabledStyle = disabled ? 'pointer-events-none opacity-25' : 'opacity-100'
   const elementStyle = `transition duration-300 ${disabledStyle}`
 
   return (
-    <PaintWorkspaceContext.Provider value={{ disabled, elementStyle, outlineConfig }}>
+    <PaintWorkspaceContext.Provider value={{ disabled, elementStyle, outlineConfig, hideColorbarSelector }}>
       <PaintCanvas />
 
       <ToolBar extraItem={toolbarExtraItem} />

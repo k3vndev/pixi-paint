@@ -5,12 +5,14 @@ interface PaintWorkspaceContext {
   outlineConfig: CanvasOutlineConfig
   disabled: boolean
   elementStyle: string
+  hideColorbarSelector: boolean
 }
 
 export const PaintWorkspaceContext = createContext<PaintWorkspaceContext>({
   outlineConfig: {},
   disabled: false,
-  elementStyle: ''
+  elementStyle: '',
+  hideColorbarSelector: false
 })
 
 export const usePaintWorkspaceContext = () => useContext(PaintWorkspaceContext)

@@ -1,7 +1,24 @@
+'use client'
+
+import { useState } from 'react'
 import { GameTile } from '@/components/play-page/GameTile'
+import { SpeedPaintGame } from '@/components/play-page/SpeedPaintGame'
+import { useDefaultPrevention } from '@/hooks/useDefaultPrevention'
+
+interface Game {
+  name: string
+  component?: React.ReactNode
+}
 
 export default function PlayPage() {
-  const games = ['Speed Paint', 'Half Paint', 'Theme Paint']
+  const [renderingGame, setRenderingGame] = useState<React.ReactNode>(null)
+  useDefaultPrevention()
+
+  const games: Game[] = [
+    { name: 'Speed Paint', component: <SpeedPaintGame /> },
+    { name: 'Half Paint' },
+    { name: 'Theme Paint' }
+  ]
 
   return (
     <main
@@ -11,9 +28,16 @@ export default function PlayPage() {
         lg:px-0 md:px-16 sm:px-8 px-4
       `}
     >
-      {games.map((name, index) => (
-        <GameTile {...{ name, index }} key={index} />
-      ))}
+      {renderingGame ??
+        games.map(({ name, component }, index) => (
+          <GameTile
+            {...{ name, index }}
+            key={index}
+            onClick={() => {
+              component && setRenderingGame(component)
+            }}
+          />
+        ))}
     </main>
   )
 }

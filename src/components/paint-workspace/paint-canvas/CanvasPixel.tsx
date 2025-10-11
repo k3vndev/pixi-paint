@@ -51,7 +51,7 @@ export const CanvasPixel = ({ color, index, isVisible }: Props) => {
         `}
         style={{ background: color }}
       >
-        {/* {index} */}
+        {index}
       </div>
     </div>
   )

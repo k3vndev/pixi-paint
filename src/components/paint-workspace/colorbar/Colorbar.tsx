@@ -5,7 +5,7 @@ import { Palette } from './Palette'
 import { Selector } from './selector/Selector'
 
 export const Colorbar = () => {
-  const { elementStyle } = usePaintWorkspaceContext()
+  const { elementStyle, hideColorbarSelector } = usePaintWorkspaceContext()
 
   return (
     <ZoneWrapper
@@ -17,7 +17,7 @@ export const Colorbar = () => {
     >
       <aside className='flex lg:flex-col lg:gap-7 md:gap-6 gap-4 items-center justify-between'>
         <Palette />
-        <Selector />
+        {!hideColorbarSelector && <Selector />}
       </aside>
     </ZoneWrapper>
   )
