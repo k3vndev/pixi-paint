@@ -23,7 +23,7 @@
   --easing-back-out: cubic-bezier(0.34, 1.56, 0.64, 1);
 
   /* Slide anim vars */
-  --slide-anim-timing: 1s var(--easing-back-out);
+  --slide-anim-timing: 0.75s var(--easing-back-out);
   --slide-anim-blur: blur(12px);
   --slide-anim-move: 48px;
 }

@@ -12,6 +12,7 @@ import { DMHeader } from '../dialog-menu/DMHeader'
 import { DMParagraph } from '../dialog-menu/DMParagraph'
 import { DMZone } from '../dialog-menu/DMZone'
 import { PaintWorkspace } from '../paint-workspace/PaintWorkspace'
+import type { CanvasOutlineConfig } from '../paint-workspace/paint-canvas/CanvasOutline'
 import { TitleDisplay, useTitleDisplay } from './TitleDisplay'
 
 export const PaintMinigame = () => {
@@ -21,12 +22,12 @@ export const PaintMinigame = () => {
   const editingPixels = usePaintStore(s => s.pixels)
   const setEditingPixels = usePaintStore(s => s.setPixels)
 
-  const [timer, setTimer] = useState(-1)
-
   const setPrimaryColor = usePaintStore(s => s.setPrimaryColor)
   const setSecondaryColor = usePaintStore(s => s.setSecondaryColor)
 
-  const refs = useFreshRefs({ editingPixels })
+  const [canvasOutlineConfig, setCanvasOutlineConfig] = useState<CanvasOutlineConfig>({})
+
+  const refs = useFreshRefs({ editingPixels, canvasOutlineConfig })
 
   const { displayTitle, hideTitle, titleState } = useTitleDisplay()
   const { paintBucketPixels } = useBucketPixels()
@@ -53,22 +54,30 @@ export const PaintMinigame = () => {
     mainSequence()
   }, [])
 
-  const runTimer = (seconds: number) => {
-    setTimer(seconds)
-    let currentTime = seconds
+  const canvasOutlineTimer = {
+    start: (time: number) => {
+      const { canvasOutlineConfig } = refs.current
+      setCanvasOutlineConfig({
+        ...canvasOutlineConfig,
 
-    requestAnimationFrame(() => {
-      const interval = setInterval(() => {
-        if (currentTime <= 0) {
-          clearInterval(interval)
-          setTimer(-1)
-          return
+        conicTimer: {
+          visible: true,
+          activeTimerTime: time
         }
-
-        currentTime -= 0.1
-        setTimer(currentTime)
-      }, 100)
-    })
+      })
+    },
+    setVisible: (value: boolean, inactiveValue?: number) => {
+      setCanvasOutlineConfig({
+        ...refs.current.canvasOutlineConfig,
+        conicTimer: { visible: value, inactiveValue }
+      })
+    },
+    initialize: () => {
+      setCanvasOutlineConfig({
+        visible: true,
+        conicTimer: { visible: true}
+      })
+    }
   }
 
   const mainSequence = async () => {
@@ -79,31 +88,50 @@ export const PaintMinigame = () => {
 
     await waitForSeconds(0.4)
 
-    displayTitle('MEMORIZE', 'THIS PAINTING...')
-    await waitForSeconds(2)
+    // Display title and initialize canvas outline
+    displayTitle('REMEMBER', 'THIS PAINTING...')
+    canvasOutlineTimer.initialize()
+    await waitForSeconds(1.5)
     hideTitle()
 
-    await waitForSeconds(0.1)
+    canvasOutlineTimer.setVisible(false)
+    await waitForSeconds(0.25)
 
     animateSetPixels(MOCK_PIXELS)
+    await waitForSeconds(0.5)
 
-    runTimer(3)
-    await waitForSeconds(3)
+    const peekTime = 5.5
+    canvasOutlineTimer.start(peekTime)
+    await waitForSeconds(peekTime)
 
-    // Run timer here
+    canvasOutlineTimer.setVisible(true)
 
     animateSetPixels(BLANK_PIXELS)
+    await waitForSeconds(0.4)
 
+    canvasOutlineTimer.setVisible(false)
+
+    displayTitle('PAINT!')
+    await waitForSeconds(0.7)
+    hideTitle()
+
+    await waitForSeconds(0.5)
+
+    const paintTime = 45
     setCanvasIsDisabled(false)
 
-    runTimer(45)
-    await waitForSeconds(45)
+    canvasOutlineTimer.start(paintTime)
+    await waitForSeconds(paintTime)
 
+    await waitForSeconds(0.2)
     setCanvasIsDisabled(true)
 
+    displayTitle('TIME!')
+    await waitForSeconds(0.7)
+    hideTitle()
+
     // Wait for the user to view
-    runTimer(1.5)
-    await waitForSeconds(1.5)
+    await waitForSeconds(1.3)
 
     // Calculate results here
     const score = calcPaintingsSimilarity(MOCK_PIXELS, refs.current.editingPixels)
@@ -122,19 +150,20 @@ export const PaintMinigame = () => {
 
   return (
     <>
-      {isShowingCanvas && <PaintWorkspace disabled={canvasIsDisabled} hideColorbarSelector />}
+      {isShowingCanvas && (
+        <PaintWorkspace
+          disabled={canvasIsDisabled}
+          outlineConfig={canvasOutlineConfig}
+          hideColorbarSelector
+        />
+      )}
 
       <TitleDisplay {...titleState} />
-
-      {/* Temporary timer*/}
-      {timer > 0 && (
-        <span className='fixed right-8 bottom-8 text-xl text-theme-10 font-mono'>{timer.toFixed(2)}</span>
-      )}
     </>
   )
 }
 
-const SEMI_TRANSPARENT_PIXELS = Array(CANVAS_PIXELS_LENGHT).fill('#ffffff32')
+const SEMI_TRANSPARENT_PIXELS = Array(CANVAS_PIXELS_LENGHT).fill('#ffffff64')
 
 const MOCK_PIXELS = [
   '#187a23',

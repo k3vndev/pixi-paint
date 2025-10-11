@@ -18,7 +18,7 @@ export const PaintWorkspace = ({
   hideColorbarSelector = false
 }: Props) => {
   const disabledStyle = disabled ? 'pointer-events-none opacity-25' : 'opacity-100'
-  const elementStyle = `transition duration-300 ${disabledStyle}`
+  const elementStyle = `[animation-fill-mode:none] transition-all duration-700 ${disabledStyle}`
 
   return (
     <PaintWorkspaceContext.Provider value={{ disabled, elementStyle, outlineConfig, hideColorbarSelector }}>
