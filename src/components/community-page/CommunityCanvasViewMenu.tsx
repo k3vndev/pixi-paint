@@ -2,7 +2,7 @@
 
 import type { IconName } from '@types'
 import { useEffect, useState } from 'react'
-import { useTimeout } from '@/hooks/timer-handlers/useTimeout'
+import { useTimeout } from '@/hooks/time/useTimeout'
 import { useFreshRefs } from '@/hooks/useFreshRefs'
 import { useCanvasesStore } from '@/store/useCanvasesStore'
 import { useRemoteStore } from '@/store/useRemoteStore'

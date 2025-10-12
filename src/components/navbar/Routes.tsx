@@ -7,7 +7,7 @@ import { useResponsiveness } from '@/hooks/useResponsiveness'
 import { Route } from './Route'
 
 export const Routes = () => {
-  const { media } = useResponsiveness()
+  const { media, loaded } = useResponsiveness()
   const ctxMenuRef = useRef<HTMLElement>(null)
   const pathName = usePathname()
   const router = useRouter()
@@ -46,6 +46,10 @@ export const Routes = () => {
     allowedClicks: [CLICK_BUTTON.LEFT, CLICK_BUTTON.RIGHT],
     showWhen: !media.lg
   })
+
+  if (!loaded) {
+    return null
+  }
 
   if (media.lg) {
     return routes.map(route => (

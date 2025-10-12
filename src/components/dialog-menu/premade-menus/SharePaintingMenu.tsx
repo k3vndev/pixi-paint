@@ -2,7 +2,7 @@ import { DMButton } from '@@/dialog-menu/DMButton'
 import { DMHeader } from '@@/dialog-menu/DMHeader'
 import { DMParagraph } from '@@/dialog-menu/DMParagraph'
 import { useEffect, useState } from 'react'
-import { useTimeout } from '@/hooks/timer-handlers/useTimeout'
+import { useTimeout } from '@/hooks/time/useTimeout'
 import { useDialogMenu } from '@/hooks/useDialogMenu'
 import { useFreshRefs } from '@/hooks/useFreshRefs'
 import { useRemoteStore } from '@/store/useRemoteStore'
@@ -88,7 +88,7 @@ export const SharePaintingMenu = ({ localCanvasId, dataUrl, pixels }: Props) => 
 
     // Create url
     const { origin } = window.location
-    const url = new URL(`${origin}/gallery`)
+    const url = new URL(`${origin}/community`)
     url.searchParams.set('id', remoteCanvasId)
 
     // Copy url and close menu after a while

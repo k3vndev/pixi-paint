@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useTimeout } from '@/hooks/timer-handlers/useTimeout'
+import { useTimeout } from '@/hooks/time/useTimeout'
 import { useCanvasesStore } from '@/store/useCanvasesStore'
 import { colorComparison } from '@/utils/colorComparison'
 

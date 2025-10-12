@@ -112,7 +112,12 @@ export const EVENTS = {
   DIALOG_MENU_CLOSED: '$dialog-menu-closed',
 
   PAINTED: '$painted',
-  SELECT_LAST_PAINT_TOOL: '$select-last-paint-tool'
+  SELECT_LAST_PAINT_TOOL: '$select-last-paint-tool',
+
+  OUTLINE_TIMER_START: '$outline-timer-start',
+  OUTLINE_TIMER_TIMED_UP: '$outline-timer-timed-up',
+  OUTLINE_TIMER_TOGGLE_PAUSE: '$outline-timer-toggle-pause',
+  OUTLINE_TIMER_SET_VALUE: '$outline-timer-set-value'
 } as const
 
 export const Z_INDEX = {

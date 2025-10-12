@@ -2,7 +2,7 @@ import type { ContextMenuDetail, ContextMenuOption } from '@types'
 import { useEffect, useRef, useState } from 'react'
 import { CLICK_BUTTON, EVENTS } from '@/consts'
 import { clickIncludes } from '@/utils/clickIncludes'
-import { useTimeout } from './timer-handlers/useTimeout'
+import { useTimeout } from './time/useTimeout'
 import { useEvent } from './useEvent'
 import { useFreshRefs } from './useFreshRefs'
 

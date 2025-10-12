@@ -4,11 +4,11 @@ import { useRouter } from 'next/navigation'
 import { useMemo, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { type DraggingSelection, useCreationsContext } from '@/context/CreationsContext'
+import { useGridCanvasStyles } from '@/hooks/canvas/useGridCanvasStyles'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useDialogMenu } from '@/hooks/useDialogMenu'
 import { useEvent } from '@/hooks/useEvent'
 import { useFreshRefs } from '@/hooks/useFreshRefs'
-import { useGridCanvasStyles } from '@/hooks/useGridCanvasStyles'
 import { useHold } from '@/hooks/useHold'
 import { usePressed } from '@/hooks/usePressed'
 import { useTouchChecking } from '@/hooks/useTouchChecking'
@@ -196,7 +196,7 @@ export const CreationsCanvas = ({ id, pixels, dataUrl, isVisible }: GalleryCanva
   })
 
   const handleClick = () => {
-    !isUsingTouch && openCanvas()
+    !isUsingTouch && !isOnSelectionMode && openCanvas()
   }
 
   const selectedStyle =

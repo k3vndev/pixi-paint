@@ -1,12 +1,16 @@
 import { BLANK_PIXELS, CANVAS_PIXELS_LENGHT, COLOR_PALETTE } from '@consts'
+import type { JSONCanvas } from '@types'
 import { useEffect, useState } from 'react'
+import { useCanvasOutlineTimer } from '@/hooks/canvas/useCanvasOutlineTimer'
+import { useWait } from '@/hooks/time/useWait'
 import { useBucketPixels } from '@/hooks/useBucketPixels'
 import { useDialogMenu } from '@/hooks/useDialogMenu'
 import { useFreshRefs } from '@/hooks/useFreshRefs'
+import minigamePaintings from '@/lib/minigame-paintings.json'
 import { usePaintStore } from '@/store/usePaintStore'
 import { calcMiddlePixelsIndexes } from '@/utils/calcMiddlePixels'
 import { calcPaintingsSimilarity } from '@/utils/calcPaintingsSimilarity'
-import { waitForSeconds } from '@/utils/waitForSeconds'
+import { canvasParser } from '@/utils/canvasParser'
 import { DMCanvasImage } from '../dialog-menu/DMCanvasImage'
 import { DMHeader } from '../dialog-menu/DMHeader'
 import { DMParagraph } from '../dialog-menu/DMParagraph'
@@ -26,8 +30,31 @@ export const PaintMinigame = () => {
   const setSecondaryColor = usePaintStore(s => s.setSecondaryColor)
 
   const [canvasOutlineConfig, setCanvasOutlineConfig] = useState<CanvasOutlineConfig>({})
+  const outlineTimer = useCanvasOutlineTimer()
+
+  const TIMES = {
+    PEEK: 4.75,
+    PAINT: 28
+  }
+
+  const setTimerIsVisible = (value: boolean) => {
+    const opacity = value ? 'opacity-100' : 'opacity-0'
+
+    setCanvasOutlineConfig(c => ({
+      ...c,
+      className: {
+        ...c.className,
+        conic: opacity
+      }
+    }))
+  }
+
+  const playOutlineAppearAnimation = () => {
+    setCanvasOutlineConfig(c => ({ ...c, visible: true }))
+  }
 
   const refs = useFreshRefs({ editingPixels, canvasOutlineConfig })
+  const wait = useWait()
 
   const { displayTitle, hideTitle, titleState } = useTitleDisplay()
   const { paintBucketPixels } = useBucketPixels()
@@ -54,98 +81,85 @@ export const PaintMinigame = () => {
     mainSequence()
   }, [])
 
-  const canvasOutlineTimer = {
-    start: (time: number) => {
-      const { canvasOutlineConfig } = refs.current
-      setCanvasOutlineConfig({
-        ...canvasOutlineConfig,
+  const pickRandomMinigamePainting = () => {
+    const rawPaintings: JSONCanvas[] = minigamePaintings as any
+    const randomIndex = Math.floor(Math.random() * rawPaintings.length)
+    const parsed = canvasParser.fromStorage(rawPaintings[randomIndex])
 
-        conicTimer: {
-          visible: true,
-          activeTimerTime: time
-        }
-      })
-    },
-    setVisible: (value: boolean, inactiveValue?: number) => {
-      setCanvasOutlineConfig({
-        ...refs.current.canvasOutlineConfig,
-        conicTimer: { visible: value, inactiveValue }
-      })
-    },
-    initialize: () => {
-      setCanvasOutlineConfig({
-        visible: true,
-        conicTimer: { visible: true}
-      })
-    }
+    if (!parsed) throw new Error()
+    return parsed.pixels
   }
 
   const mainSequence = async () => {
-    await waitForSeconds(0.1)
+    try {
+      const originalPixels = pickRandomMinigamePainting()
+      setEditingPixels(SEMI_TRANSPARENT_PIXELS)
 
-    setEditingPixels(SEMI_TRANSPARENT_PIXELS)
-    setIsShowingCanvas(true)
+      await wait.forSeconds(0.1)
+      setIsShowingCanvas(true)
 
-    await waitForSeconds(0.4)
+      await wait.forSeconds(0.1)
 
-    // Display title and initialize canvas outline
-    displayTitle('REMEMBER', 'THIS PAINTING...')
-    canvasOutlineTimer.initialize()
-    await waitForSeconds(1.5)
-    hideTitle()
+      playOutlineAppearAnimation()
+      outlineTimer.complete()
+      setTimerIsVisible(true)
 
-    canvasOutlineTimer.setVisible(false)
-    await waitForSeconds(0.25)
+      await wait.forSeconds(0.4)
 
-    animateSetPixels(MOCK_PIXELS)
-    await waitForSeconds(0.5)
+      // Display title and initialize canvas outline
+      displayTitle('REMEMBER', 'THIS PAINTING...')
+      await wait.forSeconds(1.5)
+      hideTitle()
 
-    const peekTime = 5.5
-    canvasOutlineTimer.start(peekTime)
-    await waitForSeconds(peekTime)
+      await wait.forSeconds(0.25)
 
-    canvasOutlineTimer.setVisible(true)
+      animateSetPixels(originalPixels)
+      setTimerIsVisible(false)
+      await wait.forSeconds(0.5)
 
-    animateSetPixels(BLANK_PIXELS)
-    await waitForSeconds(0.4)
+      setTimerIsVisible(true)
+      await outlineTimer.start(TIMES.PEEK)
 
-    canvasOutlineTimer.setVisible(false)
+      animateSetPixels(BLANK_PIXELS)
+      await wait.forSeconds(0.4)
+      setTimerIsVisible(false)
 
-    displayTitle('PAINT!')
-    await waitForSeconds(0.7)
-    hideTitle()
+      displayTitle('PAINT!')
+      await wait.forSeconds(0.7)
+      hideTitle()
 
-    await waitForSeconds(0.5)
+      outlineTimer.reset()
+      setTimerIsVisible(true)
 
-    const paintTime = 45
-    setCanvasIsDisabled(false)
+      await wait.forSeconds(0.5)
 
-    canvasOutlineTimer.start(paintTime)
-    await waitForSeconds(paintTime)
+      setCanvasIsDisabled(false)
+      await outlineTimer.start(TIMES.PAINT)
 
-    await waitForSeconds(0.2)
-    setCanvasIsDisabled(true)
+      await wait.forSeconds(0.2)
+      setCanvasIsDisabled(true)
 
-    displayTitle('TIME!')
-    await waitForSeconds(0.7)
-    hideTitle()
+      displayTitle('TIME!')
+      await wait.forSeconds(0.7)
+      hideTitle()
 
-    // Wait for the user to view
-    await waitForSeconds(1.3)
+      // Wait for the user to view
+      await wait.forSeconds(1.3)
 
-    // Calculate results here
-    const score = calcPaintingsSimilarity(MOCK_PIXELS, refs.current.editingPixels)
-    openMenu(
-      <>
-        <DMHeader icon='gamepad'>Your results</DMHeader>
-        <DMParagraph>You got a score of {(score * 100).toFixed(0)}%</DMParagraph>
+      // Calculate results here
+      const score = calcPaintingsSimilarity(originalPixels, refs.current.editingPixels)
+      openMenu(
+        <>
+          <DMHeader icon='gamepad'>Your results</DMHeader>
+          <DMParagraph>You got a score of {(score * 100).toFixed(0)}%</DMParagraph>
 
-        <DMZone className='flex gap-4'>
-          <DMCanvasImage pixels={refs.current.editingPixels} />
-          <DMCanvasImage pixels={MOCK_PIXELS} />
-        </DMZone>
-      </>
-    )
+          <DMZone className='flex gap-4'>
+            <DMCanvasImage pixels={originalPixels} />
+            <DMCanvasImage pixels={refs.current.editingPixels} />
+          </DMZone>
+        </>
+      )
+    } catch {}
   }
 
   return (
@@ -164,70 +178,3 @@ export const PaintMinigame = () => {
 }
 
 const SEMI_TRANSPARENT_PIXELS = Array(CANVAS_PIXELS_LENGHT).fill('#ffffff64')
-
-const MOCK_PIXELS = [
-  '#187a23',
-  '#ff7a30',
-  '#187a23',
-  '#187a23',
-  '#ff7a30',
-  '#ff7a30',
-  '#ff7a30',
-  '#ff7a30',
-  '#7ad63a',
-  '#187a23',
-  '#7ad63a',
-  '#7ad63a',
-  '#187a23',
-  '#ff7a30',
-  '#ff7a30',
-  '#ff7a30',
-  '#ffffff',
-  '#ffffff',
-  '#ffffff',
-  '#ffffff',
-  '#7ad63a',
-  '#187a23',
-  '#ff7a30',
-  '#ff7a30',
-  '#ffffff',
-  '#000000',
-  '#ffffff',
-  '#000000',
-  '#ffffff',
-  '#187a23',
-  '#ff7a30',
-  '#ff7a30',
-  '#ffffff',
-  '#000000',
-  '#ffffff',
-  '#000000',
-  '#ffffff',
-  '#187a23',
-  '#ff7a30',
-  '#ff7a30',
-  '#ffffff',
-  '#ffffff',
-  '#ffffff',
-  '#ffffff',
-  '#ffffff',
-  '#187a23',
-  '#187a23',
-  '#187a23',
-  '#ffffff',
-  '#ffffff',
-  '#7ad63a',
-  '#ffffff',
-  '#187a23',
-  '#7ad63a',
-  '#7ad63a',
-  '#7ad63a',
-  '#7ad63a',
-  '#7ad63a',
-  '#7ad63a',
-  '#7ad63a',
-  '#7ad63a',
-  '#7ad63a',
-  '#7ad63a',
-  '#7ad63a'
-]
