@@ -34,6 +34,7 @@ export const Tool = ({ cursor, tool, shortcut, spriteSize: cursorSize }: Props) 
     <Item
       ref={elementRef}
       className={twMerge(`
+        not-lg:min-h-16
         not-lg:px-0 not-lg:py-2 ${selectedStyle}  
       `)}
       onClick={selectTool}

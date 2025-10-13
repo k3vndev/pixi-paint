@@ -33,8 +33,8 @@ export const PaintMinigame = () => {
   const outlineTimer = useCanvasOutlineTimer()
 
   const TIMES = {
-    PEEK: 4.75,
-    PAINT: 28
+    PEEK: 4.5,
+    PAINT: 29
   }
 
   const setTimerIsVisible = (value: boolean) => {

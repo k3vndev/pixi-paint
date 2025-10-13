@@ -7,6 +7,8 @@ import { Selector } from './selector/Selector'
 export const Colorbar = () => {
   const { elementStyle, hideColorbarSelector } = usePaintWorkspaceContext()
 
+  const justifyStyle = hideColorbarSelector ? 'justify-center' : 'justify-between'
+
   return (
     <ZoneWrapper
       className={twMerge(`
@@ -15,7 +17,7 @@ export const Colorbar = () => {
         animate-slide-in-right ${elementStyle}
       `)}
     >
-      <aside className='flex lg:flex-col lg:gap-7 md:gap-6 gap-4 items-center justify-between'>
+      <aside className={`flex lg:flex-col lg:gap-7 md:gap-6 gap-4 items-center ${justifyStyle}`}>
         <Palette />
         {!hideColorbarSelector && <Selector />}
       </aside>
