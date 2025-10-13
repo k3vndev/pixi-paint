@@ -45,7 +45,10 @@ export const calcPaintingsSimilarity = (originalPixels: string[], comparingPixel
       TODO: fine tune logic
 
       If a region has the same dominat color as another one already had, take away both their validity
-      This has to be done progressively, causing a single color canvas to score 0
+      This has to be done progressively, causing a single color canvas to score 0.
+
+      Check how much of the correct color is on each original group, add its full value. 
+      Multiply the other colors by penalty value and divide by painted group colors count
     */
 
     // Report (DELETE)

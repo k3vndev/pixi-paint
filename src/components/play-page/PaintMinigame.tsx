@@ -177,4 +177,4 @@ export const PaintMinigame = () => {
   )
 }
 
-const SEMI_TRANSPARENT_PIXELS = Array(CANVAS_PIXELS_LENGHT).fill('#ffffff64')
+const SEMI_TRANSPARENT_PIXELS = Array(CANVAS_PIXELS_LENGHT).fill('#ffffffc8')

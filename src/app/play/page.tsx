@@ -1,21 +1,32 @@
 'use client'
 
 import { useState } from 'react'
+import { CanvasesGridHeader } from '@/components/canvases-grid/CanvasesGridHeader'
 import { GameTile } from '@/components/play-page/GameTile'
 import { PaintMinigame } from '@/components/play-page/PaintMinigame'
 import { useDefaultPrevention } from '@/hooks/useDefaultPrevention'
 
-interface Game {
+export interface Game {
   name: string
-  component?: React.ReactNode
+  details?: {
+    desc: string
+    img: string
+  }
 }
 
 export default function PlayPage() {
-  const [renderingGame, setRenderingGame] = useState<React.ReactNode>(null)
+  const [renderingGame, setRenderingGame] = useState<boolean>(false)
+
   useDefaultPrevention()
 
   const games: Game[] = [
-    { name: 'Speed Paint', component: <PaintMinigame /> },
+    {
+      name: 'Speed Paint',
+      details: {
+        img: '/minigames/speed-paint.webp',
+        desc: 'Peek at a painting, then recreate it as fast as you can.'
+      }
+    },
     { name: 'Half Paint' },
     { name: 'Theme Paint' }
   ]
@@ -23,21 +34,25 @@ export default function PlayPage() {
   return (
     <main
       className={`
-        mt-[var(--navbar-height)] w-screen h-[calc(100dvh-var(--navbar-height))]
-        flex not-lg:flex-col lg:py-20 py-12 items-center justify-center xl:gap-8 gap-4
+        mt-[var(--navbar-height)] h-[calc(100dvh-var(--navbar-height))] w-screen
+        flex not-lg:flex-col lg:py-20 py-12 items-center lg:justify-center xl:gap-8 gap-4
         lg:px-0 md:px-16 sm:px-8 px-4
       `}
     >
-      {renderingGame ??
-        games.map(({ name, component }, index) => (
+      <CanvasesGridHeader />
+      {renderingGame ? (
+        <PaintMinigame />
+      ) : (
+        games.map(({ name, details }, index) => (
           <GameTile
-            {...{ name, index }}
+            {...{ name, index, details }}
             key={index}
             onClick={() => {
-              component && setRenderingGame(component)
+              details && setRenderingGame(true)
             }}
           />
-        ))}
+        ))
+      )}
     </main>
   )
 }

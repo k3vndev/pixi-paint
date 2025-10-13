@@ -1,4 +1,5 @@
 import type { Cursor, Route, SavedCanvas } from '@types'
+import { Inter, Poppins } from 'next/font/google'
 
 // Colors
 export const COLOR_PALETTE = {
@@ -155,3 +156,19 @@ export const ROUTES: Route[] = [
   { name: 'Community', icon: 'heart' },
   { name: 'Play', icon: 'gamepad' }
 ] as const
+
+// Fonts
+const poppins = Poppins({
+  weight: ['300', '400', '500', '600', '700', '800'],
+  subsets: ['latin']
+})
+
+const inter = Inter({
+  weight: ['300', '400', '500', '600', '700', '800'],
+  subsets: ['latin']
+})
+
+export const FONTS = {
+  POPPINS: poppins.className,
+  INTER: inter.className
+}
