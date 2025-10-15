@@ -12,7 +12,7 @@ export default function PlayPage() {
   return (
     <main
       className={`
-        mt-[var(--navbar-height)] h-[calc(100dvh-var(--navbar-height))] w-screen
+        mt-[var(--navbar-height)] min-h-[calc(100dvh-var(--navbar-height))] w-screen
         relative flex items-center justify-center
       `}
     >

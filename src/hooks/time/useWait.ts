@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { useEvent } from '../useEvent'
 import { useTimeout } from './useTimeout'
 
 export const useWait = () => {
@@ -27,5 +28,26 @@ export const useWait = () => {
       })
     })
 
-  return { forSeconds, forMiliseconds }
+  const skipClickCounter = useRef(0)
+
+  useEvent('pointerdown', () => {
+    skipClickCounter.current++
+  })
+
+  const forSkippeable = async (seconds: number, splitCount = 8) => {
+    const interval = seconds / splitCount
+    const mult = splitCount / 2
+
+    skipClickCounter.current = 0
+
+    for (let i = 0; i < splitCount; i++) {
+      if (skipClickCounter.current * mult > i) {
+        continue
+      }
+
+      await forSeconds(interval)
+    }
+  }
+
+  return { forSeconds, forMiliseconds, forSkippeable }
 }

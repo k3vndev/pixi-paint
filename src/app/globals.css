@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "@k3vndev/tw-animations";
 
 * {
   cursor: none;
@@ -18,14 +19,6 @@
 
   --galery-pad-x: 16px; /* 110px */
   --creations-canvas-pad: 8px;
-
-  /* Easing vars */
-  --easing-back-out: cubic-bezier(0.34, 1.56, 0.64, 1);
-
-  /* Slide anim vars */
-  --slide-anim-timing: 0.75s var(--easing-back-out);
-  --slide-anim-blur: blur(12px);
-  --slide-anim-move: 48px;
 }
 
 /* sm */
@@ -103,27 +96,17 @@
   --animate-fade-in-slow: fade-in 1200ms ease;
   --animate-fade-in: fade-in 500ms ease;
   --animate-fade-in-quick: fade-in 200ms ease;
-
-  /* Slide animations */
-  --animate-slide-in-left: slide-in-left var(--slide-anim-timing) both;
-  --animate-slide-in-right: slide-in-right var(--slide-anim-timing) both;
-  --animate-slide-in-top: slide-in-top var(--slide-anim-timing) both;
-  --animate-slide-in-bottom: slide-in-bottom var(--slide-anim-timing) both;
-
-  --animate-slide-out-left: slide-out-left var(--slide-anim-timing) both;
-  --animate-slide-out-right: slide-out-right var(--slide-anim-timing) both;
-  --animate-slide-out-top: slide-out-top var(--slide-anim-timing) both;
-  --animate-slide-out-bottom: slide-out-bottom var(--slide-anim-timing) both;
 }
 
-.button {
-  @apply hover:brightness-[120%] transition-all active:scale-95 active:brightness-95 disabled:scale-100 disabled:brightness-50 disabled:pointer-events-none select-none;
-}
+@layer components {
+  .button {
+    @apply hover:brightness-[120%] transition-all active:scale-95 active:brightness-95 disabled:scale-100 disabled:brightness-50 disabled:pointer-events-none select-none;
+  }
+  .brightness-selected {
+    @apply brightness-130 hover:brightness-130;
+  }
 
-.brightness-selected {
-  @apply brightness-130 hover:brightness-130;
-}
-
-.cursor-shadow {
-  filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
+  .cursor-shadow {
+    filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
+  }
 }

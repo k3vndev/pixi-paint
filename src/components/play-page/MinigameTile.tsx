@@ -14,7 +14,7 @@ export const MinigameTile = ({ name, index, details, onClick }: Props) => {
 
   const outerStyle = details
     ? 'hover:brightness-115 hover:scale-101 active:scale-95 active:brightness-90 border-theme-10 justify-between'
-    : 'opacity-75 border-theme-10/25 justify-center not-sm:min-h-64'
+    : 'opacity-25 border-theme-10/25 justify-center not-sm:min-h-64'
 
   return (
     <article

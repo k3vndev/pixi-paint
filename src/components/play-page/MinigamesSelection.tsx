@@ -21,8 +21,8 @@ export const MinigamesSelection = ({ setRenderingGame }: Props) => {
   return (
     <section
       className={`
-        min-h-full h-fit flex not-lg:flex-col lg:py-20 py-12 items-center lg:justify-center
-        not-lg:justify-start lg:mt-0 sm:mt-70 mt-82 xl:gap-8 gap-4 lg:px-0 md:px-16 sm:px-8 px-4
+        min-h-full flex not-lg:flex-col items-center lg:justify-center
+        xl:gap-8 gap-4 lg:px-0 md:px-16 sm:px-8 px-4 not-lg:pt-12
       `}
     >
       <CanvasesGridHeader className='lg:hidden' />

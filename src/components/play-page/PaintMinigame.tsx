@@ -1,5 +1,4 @@
 import { BLANK_PIXELS, CANVAS_PIXELS_LENGHT, COLOR_PALETTE } from '@consts'
-import type { JSONCanvas } from '@types'
 import { useEffect, useState } from 'react'
 import { useCanvasOutlineTimer } from '@/hooks/canvas/useCanvasOutlineTimer'
 import { useWait } from '@/hooks/time/useWait'
@@ -11,6 +10,7 @@ import { usePaintStore } from '@/store/usePaintStore'
 import { calcMiddlePixelsIndexes } from '@/utils/calcMiddlePixels'
 import { calcPaintingsSimilarity } from '@/utils/calcPaintingsSimilarity'
 import { canvasParser } from '@/utils/canvasParser'
+import { getRandomItem } from '@/utils/getRandomItem'
 import { DMCanvasImage } from '../dialog-menu/DMCanvasImage'
 import { DMHeader } from '../dialog-menu/DMHeader'
 import { DMParagraph } from '../dialog-menu/DMParagraph'
@@ -82,13 +82,24 @@ export const PaintMinigame = () => {
   }, [])
 
   const pickRandomMinigamePainting = () => {
-    const rawPaintings: JSONCanvas[] = minigamePaintings as any
-    const randomIndex = Math.floor(Math.random() * rawPaintings.length)
-    const parsed = canvasParser.fromStorage(rawPaintings[randomIndex])
+    const randomPainting = getRandomItem(minigamePaintings)
+    const parsed = canvasParser.fromStorage(randomPainting as any)
 
     if (!parsed) throw new Error()
     return parsed.pixels
   }
+
+  const startPaintingIntros = [
+    ['Look closely…', 'you’ll need every pixel!'],
+    ['Don’t blink…', 'or you’ll forget a spot!'],
+    ['Study the pixels…', 'your time starts after!'],
+    ['Memorize it fast…', 'the clock is ticking!'],
+    ['Eyes on the pixels…', 'speedster, you got this!'],
+    ['Peek, memorize…', 'and then go!'],
+    ['Just one glance…', 'make it count!'],
+    ['Pixels are watching…', 'don’t mess up!'],
+    ['Remember this…', 'recreate it perfectly!']
+  ]
 
   const mainSequence = async () => {
     try {
@@ -107,8 +118,9 @@ export const PaintMinigame = () => {
       await wait.forSeconds(0.4)
 
       // Display title and initialize canvas outline
-      displayTitle('REMEMBER', 'THIS PAINTING...')
-      await wait.forSeconds(1.5)
+      const randomTitle = getRandomItem(startPaintingIntros)
+      displayTitle(...randomTitle)
+      await wait.forSkippeable(2.6)
       hideTitle()
 
       await wait.forSeconds(0.25)
@@ -124,7 +136,7 @@ export const PaintMinigame = () => {
       await wait.forSeconds(0.4)
       setTimerIsVisible(false)
 
-      displayTitle('PAINT!')
+      displayTitle('Paint!')
       await wait.forSeconds(0.7)
       hideTitle()
 
