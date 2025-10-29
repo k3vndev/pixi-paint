@@ -7,7 +7,9 @@ interface TitleDisplayState {
 }
 
 export const TitleDisplay = ({ messages, show }: TitleDisplayState) => {
-  const visibility = show ? 'animate-slide-in-top' : 'animate-slide-out-top'
+  const visibility = show
+    ? 'animate-slide-in-t anim-ease-out-back anim-duration-600'
+    : 'animate-slide-out-b anim-duration-350'
 
   return messages.length ? (
     <span
@@ -15,6 +17,7 @@ export const TitleDisplay = ({ messages, show }: TitleDisplayState) => {
         absolute text-theme-10 ${Z_INDEX.TOOLTIP} ${visibility}
         bg-theme-bg/90 lg:p-6 py-3 px-2 backdrop-blur-xl pointer-events-none
         lg:rounded-3xl rounded-2xl border-2 border-theme-20 shadow-card
+        anim-opacity-0 anim-fill-both anim-blur-md
       `}
     >
       <div

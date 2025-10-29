@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@k3vndev/tw-animations':
-        specifier: ^0.1.1
-        version: 0.1.1(tailwind@4.0.0)
+        specifier: ^0.3.0
+        version: 0.3.0(tailwind@4.0.0)
       '@types/canvas-confetti':
         specifier: ^1.9.0
         version: 1.9.0
@@ -281,8 +281,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.29':
     resolution: {integrity: sha512-uw6guiW/gcAGPDhLmd77/6lW8QLeiV5RUTsAX46Db6oLhGaVj4lhnPwb184s1bkc8kdVg/+h988dro8GRDpmYQ==}
 
-  '@k3vndev/tw-animations@0.1.1':
-    resolution: {integrity: sha512-3t0bTwPGpf12nNIgqU27Up6DZYepcAGLWpeCrGok0DvRNujc4/mTGRVSIiEFb6LQK0j0pRuYJvsTVBrBVQJ6rQ==}
+  '@k3vndev/tw-animations@0.3.0':
+    resolution: {integrity: sha512-lSQOlM8sFuF4ILgrXrjnuIFVkxx/UNYirz0PvKgFzFJR+UpuV64oX20HHdj4EkV13X5U8hZK64kYl/Qswf797g==}
     peerDependencies:
       tailwind: ^4.0.0
 
@@ -1876,7 +1876,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.4
 
-  '@k3vndev/tw-animations@0.1.1(tailwind@4.0.0)':
+  '@k3vndev/tw-animations@0.3.0(tailwind@4.0.0)':
     dependencies:
       tailwind: 4.0.0
 

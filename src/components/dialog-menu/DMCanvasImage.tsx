@@ -12,7 +12,11 @@ type Props = {
 
 export const DMCanvasImage = ({ pixels, dataUrl, className = '', ref, style }: Props) => {
   const canvasRef = useRef<HTMLElement>(null)
-  const { elementStyle } = usePerspectiveHover({ ref: ref ?? canvasRef })
+
+  const { elementStyle } = usePerspectiveHover({
+    ref: ref ?? canvasRef,
+    rotationOffset: 18
+  })
 
   const extractedDataUrl = useMemo(
     () => dataUrl ?? (pixels ? getPixelsDataUrl(pixels) : null),

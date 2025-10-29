@@ -9,7 +9,15 @@ interface Props extends Minigame {
 
 export const MinigameTile = ({ name, index, details, onClick }: Props) => {
   const animationDelay = `${(index + 1) * 100}ms`
-  const animation = 'lg:animate-slide-in-bottom animate-slide-in-left'
+  const animation = `
+    lg:animate-slide-in-b 
+    animate-slide-in-l
+    anim-blur-md lg:anim-blur-md 
+    anim-fill-backwards lg:anim-fill-backwards
+    anim-opacity-0 lg:anim-opacity-0
+    anim-ease-out-back lg:anim-ease-out-back
+    anim-duration-400 lg:anim-duration-400
+  `
   const imageSize = 512
 
   const outerStyle = details
@@ -21,11 +29,8 @@ export const MinigameTile = ({ name, index, details, onClick }: Props) => {
       className={`
         relative xl:h-142 lg:h-124 sm:h-72 border-2 
         xl:w-96 lg:w-72 w-full gap-1 flex lg:flex-col not-sm:flex-col items-center
-        sm:max-w-xl max-w-96
-        
-        text-center text-theme-10 font-semibold overflow-clip group bg-theme-20/35 rounded-2xl 
-        transition duration-300 [animation-fill-mode:backwards]
-        lg:animate-slide-in-bottom animate-slide-in-left
+        sm:max-w-xl max-w-96 text-center text-theme-10 font-semibold overflow-clip group 
+        bg-theme-20/35 rounded-2xl transition duration-300
         ${animation} ${outerStyle} 
       `}
       style={{ animationDelay }}
@@ -39,8 +44,8 @@ export const MinigameTile = ({ name, index, details, onClick }: Props) => {
           <Image
             className={`
               aspect-square lg:w-full not-lg:h-full w-fit not-sm:w-64 object-cover
-              [animation-fill-mode:backwards] ${animation}
               transition duration-300 group-hover:-translate-y-2 group-hover:scale-102
+              ${animation} anim-delay-100
             `}
             src={details.img}
             width={imageSize}

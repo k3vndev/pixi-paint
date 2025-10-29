@@ -6,8 +6,10 @@ import { Routes } from './Routes'
 export const Navbar = () => (
   <aside
     className={`
-      fixed top-0 left-0 h-[var(--navbar-height)] w-dvw ${Z_INDEX.NAVBAR}
-      bg-theme-bg border-b-4 border-b-theme-20 flex gap-3 justify-center items-end
+      fixed top-0 left-0 flex gap-3 justify-center items-end
+       h-(--navbar-height) min-h-(--navbar-height) max-h-(--navbar-height) w-dvw
+      bg-theme-bg border-b-4 border-b-theme-20 ${Z_INDEX.NAVBAR}
+      animate-slide-in-t anim-blur-sm anim-delay-100 anim-slide-move-sm
     `}
   >
     <Routes />

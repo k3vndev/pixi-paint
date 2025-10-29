@@ -52,16 +52,16 @@ export const Routes = () => {
   }
 
   if (media.lg) {
-    return routes.map(route => (
-      <Route key={route.path} {...route} isSelected={selectedRoute.path === route.path} />
+    return routes.map((route, i) => (
+      <Route key={route.path} {...route} isSelected={selectedRoute.path === route.path} index={i} />
     ))
   }
 
   return (
     selectedRoute && (
       <>
-        <Route {...selectedRoute} isSelected />
-        <Route ref={ctxMenuRef} name='...' />
+        <Route {...selectedRoute} isSelected index={0} />
+        <Route ref={ctxMenuRef} name='...' index={1} />
       </>
     )
   )

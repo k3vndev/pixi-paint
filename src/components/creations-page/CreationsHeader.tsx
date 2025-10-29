@@ -41,7 +41,7 @@ export const CreationsHeader = ({ className = '', ...props }: ReusableComponent)
       const headerEl = props.ref?.current as HTMLElement
       if (!headerEl) return
 
-      const childButtons = headerEl.querySelectorAll('button')
+      const childButtons = headerEl.querySelectorAll('div:has(> button)')
       let lastTop = -1
       let hasMultipleRows = false
 
@@ -53,7 +53,7 @@ export const CreationsHeader = ({ className = '', ...props }: ReusableComponent)
           continue
         }
 
-        if (Math.abs(top - lastTop) > 20) {
+        if (Math.abs(top - lastTop) > 25) {
           hasMultipleRows = true
           break
         }

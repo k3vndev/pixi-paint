@@ -12,7 +12,8 @@ export const SelectionBox = ({ canvasIsSelected }: Props) => {
       className={`
         absolute right-[var(--creations-canvas-pad)] top-[var(--creations-canvas-pad)]
         size-14 border-2 border-theme-10/50 flex items-center justify-center
-        bg-theme-bg/80 backdrop-blur-xs rounded-md shadow-card animate-appear
+        bg-theme-bg/80 backdrop-blur-xs rounded-md shadow-card
+        animate-fade-in anim-duration-200 anim-scale-80 anim-blur-lg anim-ease-out-sine
       `}
     >
       <ColoredPixelatedImage

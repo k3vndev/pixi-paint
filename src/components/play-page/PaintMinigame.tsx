@@ -151,7 +151,7 @@ export const PaintMinigame = () => {
       await wait.forSeconds(0.2)
       setCanvasIsDisabled(true)
 
-      displayTitle('TIME!')
+      displayTitle('Time up!')
       await wait.forSeconds(0.7)
       hideTitle()
 
