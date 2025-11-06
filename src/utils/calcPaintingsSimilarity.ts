@@ -1,74 +1,65 @@
 import { CANVAS_PIXELS_LENGHT } from '@consts'
 import { canvasParser } from './canvasParser'
 import { colorComparison } from './colorComparison'
+import { colorSimilarity } from './colorSimilarity'
 
 export const calcPaintingsSimilarity = (originalPixels: string[], comparingPixels: string[]) => {
   const COLOR_MISMATCH_PENALTY = 0.33
 
-  const applyColorMismatchPenalty = (rawScore: number, mismatch: boolean) =>
-    mismatch ? rawScore * COLOR_MISMATCH_PENALTY : rawScore
-
   // Extract color regions
   const originalRegions = extractColorRegions(originalPixels)
-  const comparingRegions = extractColorRegions(comparingPixels)
-
-  let totalScore = 0
-  console.log({ originalRegions })
+  const regionsScore: RegionScore[] = []
 
   // Check the corresponding pixels for each region
-  for (const [regionColor, regionIndexes] of originalRegions) {
-    const colorAppereancesMap: Record<string, number> = {}
-    const dominantColor = { color: '', appereances: 0 }
+  for (const [originalRegionColor, originalRegionIndexes] of originalRegions) {
+    const comparingRegionPixels = originalRegionIndexes.map(i => comparingPixels[i])
+    const comparingRegions = extractColorRegions(comparingRegionPixels)
 
-    // Get the dominant color
-    for (const index of regionIndexes) {
-      const color = comparingPixels[index]
+    let regionTotalScore = 0
+    const dominantColor = {
+      color: '',
+      count: 0
+    }
 
-      const newAppereancesValue = (colorAppereancesMap[color] ?? 0) + 1
-      colorAppereancesMap[color] = newAppereancesValue
+    for (const [comparingRegionColor, comparingRegionIndexes] of comparingRegions) {
+      // This represents a painted zone in an orignal region
+      // In a perfect match, originalRegionIndexes and comparingRegionIndexes should be equal
 
-      if (newAppereancesValue > dominantColor.appereances) {
-        dominantColor.color = color
-        dominantColor.appereances = newAppereancesValue
+      const similarity = colorSimilarity(originalRegionColor, comparingRegionColor)
+      const colorScore = similarity === 1 ? similarity : similarity * COLOR_MISMATCH_PENALTY
+
+      // Weight the score by the size of the painted region.
+      regionTotalScore += (colorScore * comparingRegionIndexes.length ** 2) / originalRegionIndexes.length
+
+      // Track dominant color
+      if (comparingRegionIndexes.length > dominantColor.count) {
+        dominantColor.color = comparingRegionColor
+        dominantColor.count = comparingRegionIndexes.length
       }
     }
 
-    // Calculate score and percentage
-    const rawScore = dominantColor.appereances / regionIndexes.length
-    const colorMatches = colorComparison(dominantColor.color, regionColor)
-    const regionPercentage = regionIndexes.length / CANVAS_PIXELS_LENGHT
-    const regionScore = applyColorMismatchPenalty(rawScore, !colorMatches)
-
-    totalScore += regionScore * regionPercentage
-
-    /*
-      TODO: fine tune logic
-
-      If a region has the same dominat color as another one already had, take away both their validity
-      This has to be done progressively, causing a single color canvas to score 0.
-
-      Check how much of the correct color is on each original group, add its full value. 
-      Multiply the other colors by penalty value and divide by painted group colors count
-    */
-
-    // Report (DELETE)
-    console.log({
-      originalRegion: {
-        color: regionColor,
-        count: regionIndexes.length
-      },
-      dominantColor,
-      regionPercentage,
-      score: {
-        raw: rawScore,
-        afterPenalty: regionScore,
-        colorMismatchPenalty: COLOR_MISMATCH_PENALTY,
-        colorMatches: colorMatches
-      }
+    regionsScore.push({
+      score: regionTotalScore,
+      dominantColor: dominantColor.color,
+      size: originalRegionIndexes.length
     })
   }
 
-  return totalScore
+  // Calculate final score
+  let totalScore = 0
+  const seenDominantColors = new Set<string>()
+
+  for (const { score, dominantColor } of regionsScore) {
+    // Penalize regions where the dominant color was repeated
+    if (seenDominantColors.has(dominantColor)) {
+      continue
+    }
+
+    seenDominantColors.add(dominantColor)
+    totalScore += score
+  }
+
+  return totalScore / CANVAS_PIXELS_LENGHT
 }
 
 const extractColorRegions = (pixels: string[]) => {
@@ -84,4 +75,10 @@ const extractColorRegions = (pixels: string[]) => {
     ...baseRegions,
     [bg]: bgPositions
   })
+}
+
+interface RegionScore {
+  score: number
+  dominantColor: string
+  size: number
 }

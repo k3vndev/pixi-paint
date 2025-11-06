@@ -90,14 +90,16 @@ export const PaintMinigame = () => {
   }
 
   const startPaintingIntros = [
-    ['Look closely…', 'you’ll need every pixel!'],
-    ['Don’t blink…', 'or you’ll forget a spot!'],
+    ['Look closely…', "you'll need every pixel!"],
+    ["Don't blink…", "or you'll forget a spot!"],
     ['Study the pixels…', 'your time starts after!'],
     ['Memorize it fast…', 'the clock is ticking!'],
     ['Eyes on the pixels…', 'speedster, you got this!'],
+    ["Don't look away…", 'focus is key!'],
+    ['Steady now…', 'you can do this!'],
     ['Peek, memorize…', 'and then go!'],
     ['Just one glance…', 'make it count!'],
-    ['Pixels are watching…', 'don’t mess up!'],
+    ['Pixels are watching…', "don't mess up!"],
     ['Remember this…', 'recreate it perfectly!']
   ]
 
