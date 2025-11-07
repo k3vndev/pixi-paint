@@ -1,19 +1,25 @@
-import { GameTile } from '@/components/play-page/GameTile'
+'use client'
+
+import { useState } from 'react'
+import { MinigamesSelection } from '@/components/play-page/MinigamesSelection'
+import { PaintMinigame } from '@/components/play-page/PaintMinigame'
+import { PlayContext } from '@/context/PlayContext'
+import { useDefaultPrevention } from '@/hooks/useDefaultPrevention'
 
 export default function PlayPage() {
-  const games = ['Speed Paint', 'Half Paint', 'Theme Paint']
+  useDefaultPrevention()
+  const [isRenderingGame, setIsRenderingGame] = useState<boolean>(false)
 
   return (
-    <main
-      className={`
-        mt-[var(--navbar-height)] w-screen h-[calc(100dvh-var(--navbar-height))]
-        flex not-lg:flex-col lg:py-20 py-12 items-center justify-center xl:gap-8 gap-4
-        lg:px-0 md:px-16 sm:px-8 px-4
-      `}
-    >
-      {games.map((name, index) => (
-        <GameTile {...{ name, index }} key={index} />
-      ))}
-    </main>
+    <PlayContext.Provider value={{ isRenderingGame, setIsRenderingGame }}>
+      <main
+        className={`
+          mt-[var(--navbar-height)] min-h-[calc(100dvh-var(--navbar-height))] w-screen
+          relative flex items-center justify-center
+        `}
+      >
+        {isRenderingGame ? <PaintMinigame /> : <MinigamesSelection />}
+      </main>
+    </PlayContext.Provider>
   )
 }

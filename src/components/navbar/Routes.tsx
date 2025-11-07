@@ -7,7 +7,7 @@ import { useResponsiveness } from '@/hooks/useResponsiveness'
 import { Route } from './Route'
 
 export const Routes = () => {
-  const { media } = useResponsiveness()
+  const { media, loaded } = useResponsiveness()
   const ctxMenuRef = useRef<HTMLElement>(null)
   const pathName = usePathname()
   const router = useRouter()
@@ -47,17 +47,21 @@ export const Routes = () => {
     showWhen: !media.lg
   })
 
+  if (!loaded) {
+    return null
+  }
+
   if (media.lg) {
-    return routes.map(route => (
-      <Route key={route.path} {...route} isSelected={selectedRoute.path === route.path} />
+    return routes.map((route, i) => (
+      <Route key={route.path} {...route} isSelected={selectedRoute.path === route.path} index={i} />
     ))
   }
 
   return (
     selectedRoute && (
       <>
-        <Route {...selectedRoute} isSelected />
-        <Route ref={ctxMenuRef} name='...' />
+        <Route {...selectedRoute} isSelected index={0} />
+        <Route ref={ctxMenuRef} name='...' index={1} />
       </>
     )
   )

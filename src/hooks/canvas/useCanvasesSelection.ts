@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { HTML_DATA_IDS } from '@/consts'
 import type { DraggingSelection } from '@/context/CreationsContext'
 import { useCanvasesStore } from '@/store/useCanvasesStore'
-import { useEvent } from './useEvent'
+import { useEvent } from '../useEvent'
 
 export const useCanvasesSelection = () => {
   const [isOnSelectionMode, setIsOnSelectionMode] = useState(false)
@@ -11,7 +11,11 @@ export const useCanvasesSelection = () => {
   const [hasTallHeader, setHasTallHeader] = useState(false)
   const savedCanvases = useCanvasesStore(s => s.savedCanvases)
 
-  const enableSelectionMode = () => setIsOnSelectionMode(true)
+  const enableSelectionMode = () => {
+    setIsOnSelectionMode(true)
+    deselectAllCanvases()
+  }
+
   const disableSelectionMode = () => setIsOnSelectionMode(false)
 
   const selectCanvas = (id: string) => {

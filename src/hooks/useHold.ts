@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react'
-import { useTimeout } from './timer-handlers/useTimeout'
+import { useTimeout } from './time/useTimeout'
 import { useEvent } from './useEvent'
 
 type UseHoldOptions = {

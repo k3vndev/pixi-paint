@@ -1,9 +1,10 @@
 import type { ToolbarTool } from '@types'
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { CursorImage } from '@/components/cursor/CursorImage'
 import { useActionOnKey } from '@/hooks/useActionOnKey'
 import { useTooltip } from '@/hooks/useTooltip'
+import { useTouchChecking } from '@/hooks/useTouchChecking'
 import { usePaintStore } from '@/store/usePaintStore'
 import { parseKebabName } from '@/utils/parseKebabName'
 import { Item } from './Item'
@@ -17,8 +18,10 @@ export const Tool = ({ cursor, tool, shortcut, spriteSize: cursorSize }: Props) 
   const selectedTool = usePaintStore(s => s.tool)
   const elementRef = useRef<HTMLElement>(null)
 
-  const toolName = parseKebabName(cursor.imageName)
-  const tooltipName = `${toolName} (${shortcut})`
+  const isUsingTouch = useTouchChecking()
+  const toolName = useMemo(() => parseKebabName(cursor.imageName), [])
+  const tooltipName = useMemo(() => (isUsingTouch ? toolName : `${toolName} (${shortcut})`), [isUsingTouch])
+
   useTooltip({ ref: elementRef, text: tooltipName })
 
   const selectTool = () => {
@@ -34,6 +37,7 @@ export const Tool = ({ cursor, tool, shortcut, spriteSize: cursorSize }: Props) 
     <Item
       ref={elementRef}
       className={twMerge(`
+        not-lg:min-h-16
         not-lg:px-0 not-lg:py-2 ${selectedStyle}  
       `)}
       onClick={selectTool}

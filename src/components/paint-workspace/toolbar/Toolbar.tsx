@@ -51,7 +51,7 @@ export const ToolBar = ({ extraItem }: Props) => {
           absolute lg:gap-3 sm:gap-2 gap-1.5 
           lg:left-[var(--sidebar-margin)] not-lg:bottom-[var(--sidebar-margin)]
           flex lg:flex-col justify-center lg:w-fit w-[var(--w-screen-minus-pad)]
-          animate-slide-in-left ${elementStyle} 
+          animate-slide-in-l ${elementStyle}
         `)}
       >
         {tools.map(tool => (

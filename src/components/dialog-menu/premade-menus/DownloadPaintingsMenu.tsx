@@ -97,7 +97,9 @@ export const DownloadPaintingsMenu = ({ canvasesIds, onDownload }: Props) => {
       }
     } else {
       // Download json
-      const jsonCanvases: JSONCanvas[] = canvasParser.batch.toStorage(canvasesPixels)
+      const jsonCanvases: JSONCanvas[] = canvasParser.batch
+        .toStorage(canvasesPixels)
+        .map(({ id, ...jsonCanvas }) => jsonCanvas)
 
       // Prevent single element arrays
       const downloadJson = singleCanvas ? jsonCanvases[0] : jsonCanvases

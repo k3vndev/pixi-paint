@@ -1,14 +1,15 @@
 import { CANVAS_RESOLUTION, CLICK_BUTTON as CB, EVENTS, TOOLS, WHEEL_SWITCH_TOOL_COOLDOWN } from '@consts'
 import { useEffect, useRef } from 'react'
+import { usePaintWorkspaceContext } from '@/context/PaintWorkspaceContext'
 import { useCanvasesStore } from '@/store/useCanvasesStore'
 import { usePaintStore } from '@/store/usePaintStore'
 import { clickIncludes } from '@/utils/clickIncludes'
 import { colorComparison } from '@/utils/colorComparison'
-import { useTimeout } from './timer-handlers/useTimeout'
-import { useBucketPixels } from './useBucketPixels'
-import { useEvent } from './useEvent'
-import { useFreshRefs } from './useFreshRefs'
-import { useTouchChecking } from './useTouchChecking'
+import { useTimeout } from '../time/useTimeout'
+import { useBucketPixels } from '../useBucketPixels'
+import { useEvent } from '../useEvent'
+import { useFreshRefs } from '../useFreshRefs'
+import { useTouchChecking } from '../useTouchChecking'
 
 export const usePaintCanvas = () => {
   const pixels = usePaintStore(s => s.pixels)
@@ -16,10 +17,12 @@ export const usePaintCanvas = () => {
 
   const selectedColor = usePaintStore(s => s.primaryColor)
   const setSelectedColor = usePaintStore(s => s.setPrimaryColor)
-
   const secondaryColor = usePaintStore(s => s.secondaryColor)
+
   const tool = usePaintStore(s => s.tool)
   const setTool = usePaintStore(s => s.setTool)
+  const lastUsedPaintTool = useRef(TOOLS.BRUSH)
+  const toolsHistory = useRef<TOOLS[]>([])
 
   const draft = useCanvasesStore(s => s.draftCanvas)
   const savedCanvases = useCanvasesStore(s => s.savedCanvases)
@@ -27,11 +30,10 @@ export const usePaintCanvas = () => {
   const canvasRef = useRef<HTMLDivElement | null>(null)
   const usingSecondClickOnEraser = useRef(false)
 
-  const lastUsedPaintTool = useRef(TOOLS.BRUSH)
-  const toolsHistory = useRef<TOOLS[]>([])
-
   const colorPickerHoldingColor = useRef<string | null>(null)
   const { paintBucketPixels } = useBucketPixels()
+
+  const { disabled } = usePaintWorkspaceContext()
 
   const isOnWheelTimeout = useRef(false)
   const { startTimeout: startWheelTimeout, stopTimeout: stopWheelTimeout } = useTimeout([], () => {
@@ -49,7 +51,8 @@ export const usePaintCanvas = () => {
     secondaryColor,
     savedCanvases,
     draft,
-    isUsingTouch
+    isUsingTouch,
+    disabled
   })
 
   useEffect(() => {
@@ -212,15 +215,22 @@ export const usePaintCanvas = () => {
 
   // Switch tools on mouse wheel
   useEvent('wheel', (e: WheelEvent) => {
-    if (colorPickerHoldingColor.current || usingSecondClickOnEraser.current || isOnWheelTimeout.current) {
+    const { tool: selectedTool, disabled } = stateRefs.current
+
+    if (
+      colorPickerHoldingColor.current ||
+      usingSecondClickOnEraser.current ||
+      isOnWheelTimeout.current ||
+      disabled
+    ) {
       return
     }
+
     const add = e.deltaY < 0 ? -1 : 1
-    const selectedTool = +stateRefs.current.tool
+    let newSelectedTool = selectedTool + add
 
     const toolsLength = Object.keys(TOOLS).filter(k => Number.isNaN(+k)).length
 
-    let newSelectedTool = selectedTool + add
     if (newSelectedTool >= toolsLength) newSelectedTool = 1
     else if (newSelectedTool < 1) newSelectedTool = toolsLength - 1
 

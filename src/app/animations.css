@@ -2,6 +2,7 @@
   5% {
     scale: 1.075;
   }
+
   100% {
     scale: 1;
   }
@@ -11,34 +12,11 @@
 .pixel-anim {
   animation: pixel-anim 200ms ease-in both;
 }
+
 @keyframes pixel-anim {
   5% {
     scale: 1.04;
     filter: brightness(115%);
-  }
-}
-
-/* Slide in animations */
-@keyframes slide-in-left {
-  from {
-    opacity: 0;
-    filter: var(--slide-anim-blur);
-    translate: calc(var(--slide-anim-move) * -1);
-  }
-  to {
-    translate: 0;
-    filter: blur(0);
-  }
-}
-@keyframes slide-in-right {
-  from {
-    opacity: 0;
-    filter: var(--slide-anim-blur);
-    translate: var(--slide-anim-move);
-  }
-  to {
-    translate: 0;
-    filter: blur(0);
   }
 }
 
@@ -48,19 +26,23 @@
     scale: 0;
     opacity: 0.5;
   }
+
   50% {
     scale: 0.75 0.4;
   }
+
   100% {
     scale: 1;
     opacity: 1;
   }
 }
+
 @keyframes menu-hide-vertical {
   0% {
     scale: 1;
     opacity: 1;
   }
+
   100% {
     scale: 0.8 0.5;
     opacity: 0;
@@ -72,19 +54,23 @@
     scale: 0;
     opacity: 0.5;
   }
+
   50% {
     scale: 0.4 0.75;
   }
+
   100% {
     scale: 1;
     opacity: 1;
   }
 }
+
 @keyframes menu-hide-horizontal {
   0% {
     scale: 1;
     opacity: 1;
   }
+
   100% {
     scale: 0.5 0.8;
     opacity: 0;
@@ -97,28 +83,12 @@
   }
 }
 
-@keyframes appear {
-  from {
-    opacity: 0;
-    scale: 0.7 0.75;
-  }
-  to {
-    scale: 1;
-    opacity: 1;
-  }
-}
-
 @keyframes step-spin {
   from {
     rotate: 0deg;
   }
+
   to {
     rotate: 360deg;
-  }
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
   }
 }

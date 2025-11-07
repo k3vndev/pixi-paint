@@ -1,4 +1,5 @@
 import type { Cursor, Route, SavedCanvas } from '@types'
+import { Inter, Poppins } from 'next/font/google'
 
 // Colors
 export const COLOR_PALETTE = {
@@ -112,7 +113,12 @@ export const EVENTS = {
   DIALOG_MENU_CLOSED: '$dialog-menu-closed',
 
   PAINTED: '$painted',
-  SELECT_LAST_PAINT_TOOL: '$select-last-paint-tool'
+  SELECT_LAST_PAINT_TOOL: '$select-last-paint-tool',
+
+  OUTLINE_TIMER_START: '$outline-timer-start',
+  OUTLINE_TIMER_TIMED_UP: '$outline-timer-timed-up',
+  OUTLINE_TIMER_TOGGLE_PAUSE: '$outline-timer-toggle-pause',
+  OUTLINE_TIMER_SET_VALUE: '$outline-timer-set-value'
 } as const
 
 export const Z_INDEX = {
@@ -150,3 +156,19 @@ export const ROUTES: Route[] = [
   { name: 'Community', icon: 'heart' },
   { name: 'Play', icon: 'gamepad' }
 ] as const
+
+// Fonts
+const poppins = Poppins({
+  weight: ['300', '400', '500', '600', '700', '800'],
+  subsets: ['latin']
+})
+
+const inter = Inter({
+  weight: ['300', '400', '500', '600', '700', '800'],
+  subsets: ['latin']
+})
+
+export const FONTS = {
+  POPPINS: poppins.className,
+  INTER: inter.className
+}

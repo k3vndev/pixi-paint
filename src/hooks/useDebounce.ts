@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useTimeout } from './timer-handlers/useTimeout'
+import { useTimeout } from './time/useTimeout'
 import { useFreshRefs } from './useFreshRefs'
 
 /**

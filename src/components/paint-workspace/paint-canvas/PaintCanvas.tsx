@@ -1,7 +1,7 @@
 import { CANVAS_RESOLUTION, HTML_IDS } from '@consts'
 import { CanvasPixel } from '@/components/paint-workspace/paint-canvas/CanvasPixel'
 import { usePaintWorkspaceContext } from '@/context/PaintWorkspaceContext'
-import { usePaintCanvas } from '@/hooks/usePaintCanvas'
+import { usePaintCanvas } from '@/hooks/canvas/usePaintCanvas'
 import { useCanvasPixelsAppearing } from '@/hooks/usePixelsAppearing'
 import { useUserPublishedIds } from '@/hooks/useUserPublishedIds'
 import { CanvasOutline } from './CanvasOutline'
