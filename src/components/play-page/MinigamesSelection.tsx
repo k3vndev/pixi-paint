@@ -1,11 +1,10 @@
 import { CanvasesGridHeader } from '@@/canvases-grid/CanvasesGridHeader'
+import { usePlayContext } from '@/context/PlayContext'
 import { MinigameTile } from './MinigameTile'
 
-interface Props {
-  setRenderingGame: (value: boolean) => void
-}
+export const MinigamesSelection = () => {
+  const { setIsRenderingGame } = usePlayContext()
 
-export const MinigamesSelection = ({ setRenderingGame }: Props) => {
   const games: Minigame[] = [
     {
       name: 'Speed Paint',
@@ -32,7 +31,7 @@ export const MinigamesSelection = ({ setRenderingGame }: Props) => {
           {...{ name, index, details }}
           key={index}
           onClick={() => {
-            details && setRenderingGame(true)
+            details && setIsRenderingGame(true)
           }}
         />
       ))}

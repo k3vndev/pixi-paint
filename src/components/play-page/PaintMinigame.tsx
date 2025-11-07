@@ -1,20 +1,19 @@
-import { BLANK_PIXELS, CANVAS_PIXELS_LENGHT, COLOR_PALETTE } from '@consts'
-import { useEffect, useState } from 'react'
+import { BLANK_PIXELS } from '@consts'
+import { useState } from 'react'
 import { useCanvasOutlineTimer } from '@/hooks/canvas/useCanvasOutlineTimer'
 import { useWait } from '@/hooks/time/useWait'
-import { useBucketPixels } from '@/hooks/useBucketPixels'
 import { useDialogMenu } from '@/hooks/useDialogMenu'
 import { useFreshRefs } from '@/hooks/useFreshRefs'
-import minigamePaintings from '@/lib/minigame-paintings.json'
+import { usePlayMinigame } from '@/hooks/usePlayMinigame'
 import { usePaintStore } from '@/store/usePaintStore'
-import { calcMiddlePixelsIndexes } from '@/utils/calcMiddlePixels'
 import { calcPaintingsSimilarity } from '@/utils/calcPaintingsSimilarity'
-import { canvasParser } from '@/utils/canvasParser'
 import { getRandomItem } from '@/utils/getRandomItem'
+import { DMButton } from '../dialog-menu/DMButton'
 import { DMCanvasImage } from '../dialog-menu/DMCanvasImage'
 import { DMHeader } from '../dialog-menu/DMHeader'
 import { DMParagraph } from '../dialog-menu/DMParagraph'
 import { DMZone } from '../dialog-menu/DMZone'
+import { DMZoneButtons } from '../dialog-menu/DMZoneButtons'
 import { PaintWorkspace } from '../paint-workspace/PaintWorkspace'
 import type { CanvasOutlineConfig } from '../paint-workspace/paint-canvas/CanvasOutline'
 import { TitleDisplay, useTitleDisplay } from './TitleDisplay'
@@ -26,15 +25,12 @@ export const PaintMinigame = () => {
   const editingPixels = usePaintStore(s => s.pixels)
   const setEditingPixels = usePaintStore(s => s.setPixels)
 
-  const setPrimaryColor = usePaintStore(s => s.setPrimaryColor)
-  const setSecondaryColor = usePaintStore(s => s.setSecondaryColor)
-
   const [canvasOutlineConfig, setCanvasOutlineConfig] = useState<CanvasOutlineConfig>({})
   const outlineTimer = useCanvasOutlineTimer()
 
   const TIMES = {
     PEEK: 4.5,
-    PAINT: 29
+    PAINT: 30
   }
 
   const setTimerIsVisible = (value: boolean) => {
@@ -57,37 +53,7 @@ export const PaintMinigame = () => {
   const wait = useWait()
 
   const { displayTitle, hideTitle, titleState } = useTitleDisplay()
-  const { paintBucketPixels } = useBucketPixels()
   const { openMenu } = useDialogMenu()
-
-  const animateSetPixels = (pixels: string[]) =>
-    paintBucketPixels({
-      startIndexes: calcMiddlePixelsIndexes(),
-      paintGenerationAction: generation => {
-        const { editingPixels } = refs.current
-        const editingPixelsClone = structuredClone(editingPixels)
-
-        for (const { index } of generation) {
-          editingPixelsClone[index] = pixels[index]
-        }
-        setEditingPixels(editingPixelsClone)
-      }
-    })
-
-  useEffect(() => {
-    setPrimaryColor(COLOR_PALETTE.RED)
-    setSecondaryColor(COLOR_PALETTE.WHITE)
-
-    mainSequence()
-  }, [])
-
-  const pickRandomMinigamePainting = () => {
-    const randomPainting = getRandomItem(minigamePaintings)
-    const parsed = canvasParser.fromStorage(randomPainting as any)
-
-    if (!parsed) throw new Error()
-    return parsed.pixels
-  }
 
   const startPaintingIntros = [
     ['Look closely…', "you'll need every pixel!"],
@@ -158,22 +124,41 @@ export const PaintMinigame = () => {
       hideTitle()
 
       // Wait for the user to view
-      await wait.forSeconds(1.3)
-
-      // Calculate results here
-      const score = calcPaintingsSimilarity(originalPixels, refs.current.editingPixels)
-      openMenu(
-        <>
-          <DMHeader icon='gamepad'>Your results</DMHeader>
-          <DMParagraph>You got a score of {(score * 100).toFixed(0)}%</DMParagraph>
-
-          <DMZone className='flex gap-4'>
-            <DMCanvasImage pixels={originalPixels} />
-            <DMCanvasImage pixels={refs.current.editingPixels} />
-          </DMZone>
-        </>
-      )
+      await wait.forSeconds(1)
+      showResultsScreen(originalPixels)
     } catch {}
+  }
+
+  const { animateSetPixels, pickRandomMinigamePainting, SEMI_TRANSPARENT_PIXELS, restartMinigame } =
+    usePlayMinigame({
+      mainSequence
+    })
+
+  const showResultsScreen = (originalPixels: string[]) => {
+    // Calculate results
+    const score = calcPaintingsSimilarity(originalPixels, refs.current.editingPixels)
+
+    // Open results menu
+    openMenu(
+      <>
+        <DMHeader icon='gamepad'>Your results :)</DMHeader>
+        <DMParagraph>You got a score of {(score * 100).toFixed(0)}%</DMParagraph>
+
+        <DMZone className='flex gap-4'>
+          <DMCanvasImage pixels={originalPixels} />
+          <DMCanvasImage pixels={refs.current.editingPixels} />
+        </DMZone>
+
+        <DMZoneButtons>
+          <DMButton icon='cross' empty>
+            Minigames selection
+          </DMButton>
+          <DMButton icon='gamepad' onClick={restartMinigame}>
+            Play again
+          </DMButton>
+        </DMZoneButtons>
+      </>
+    )
   }
 
   return (
@@ -190,5 +175,3 @@ export const PaintMinigame = () => {
     </>
   )
 }
-
-const SEMI_TRANSPARENT_PIXELS = Array(CANVAS_PIXELS_LENGHT).fill('#ffffffc8')
