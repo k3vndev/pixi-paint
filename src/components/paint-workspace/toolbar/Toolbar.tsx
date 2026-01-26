@@ -10,10 +10,10 @@ import { Separator } from './Separator'
 import { Tool } from './Tool'
 
 interface Props {
-  extraItem?: React.ReactNode
+  itemSlot?: React.ReactNode
 }
 
-export const ToolBar = ({ extraItem }: Props) => {
+export const ToolBar = ({ itemSlot }: Props) => {
   const { elementStyle } = usePaintWorkspaceContext()
 
   const { media, loaded } = useResponsiveness()
@@ -58,10 +58,10 @@ export const ToolBar = ({ extraItem }: Props) => {
           <Tool {...tool} key={tool.tool} spriteSize={spriteSize} />
         ))}
 
-        {!!extraItem && (
+        {!!itemSlot && (
           <>
             {media.lg && <Separator />}
-            {extraItem}
+            {itemSlot}
           </>
         )}
       </aside>

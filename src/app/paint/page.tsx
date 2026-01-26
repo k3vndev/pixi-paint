@@ -28,7 +28,7 @@ export default function PaintPage() {
         flex justify-center items-center
       `}
     >
-      <PaintWorkspace toolbarExtraItem={<SaveHandler />} {...{ outlineConfig }} />
+      <PaintWorkspace toolbarItemSlot={<SaveHandler />} {...{ outlineConfig }} />
     </main>
   )
 }

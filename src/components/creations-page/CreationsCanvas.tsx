@@ -218,11 +218,11 @@ export const CreationsCanvas = ({ id, pixels, dataUrl, isVisible }: GalleryCanva
       {/* Indicators */}
       <div
         className={`
-          absolute w-full p-[var(--creations-canvas-pad)] 
+          absolute w-full p-(--creations-canvas-pad)
           pt-0 flex items-center bottom-0
         `}
       >
-        {isDraft && <CreationCanvasIndicator className='px-3'>DRAFT</CreationCanvasIndicator>}
+        {isDraft && <CreationCanvasIndicator className='px-2 sm:px-3'>DRAFT</CreationCanvasIndicator>}
         {userPublishedCanvasesIds !== undefined && (
           <div className='flex ml-auto gap-2.5'>
             {isCurrentlyEditing && <CreationCanvasIndicator icon='pencil' />}

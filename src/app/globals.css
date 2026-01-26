@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "@k3vndev/tw-animations";
+@import 'tailwindcss';
+@import '@k3vndev/tw-animations';
 
 * {
   cursor: none;
@@ -8,7 +8,9 @@
 
 :root {
   /* Global vars */
-  --canvas-size: calc(var(--w-screen-minus-pad) - (var(--canvas-outline-w) * 2));
+  --canvas-size: calc(
+    var(--w-screen-minus-pad) - (var(--canvas-outline-w) * 2)
+  );
   --canvas-outline-w: 12px;
 
   --sidebar-margin: 16px;
@@ -38,7 +40,7 @@
   :root {
     --canvas-size: 450px;
     --galery-pad-x: 64px;
-    --creations-canvas-pad: 14px;
+    --creations-canvas-pad: 10px;
   }
 }
 
@@ -89,10 +91,10 @@
 
   /* Animations */
   --animate-pop: pop 400ms ease both;
-  --animate-pulse-brightness: pulse-brightness 1s ease-in-out both alternate infinite;
+  --animate-pulse-brightness: pulse-brightness 1s ease-in-out both alternate
+    infinite;
   --animate-step-spin: step-spin 850ms steps(4) infinite;
 }
-
 
 @utility button {
   @apply hover:brightness-[120%] transition-all active:scale-95 active:brightness-95 disabled:scale-100 disabled:brightness-50 disabled:pointer-events-none select-none;
