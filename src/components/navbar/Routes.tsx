@@ -1,5 +1,5 @@
 import { CLICK_BUTTON, ROUTES } from '@consts'
-import type { ContextMenuOption } from '@types'
+import type { ContextMenuOption, IconName } from '@types'
 import { usePathname, useRouter } from 'next/navigation'
 import { useMemo, useRef } from 'react'
 import { useContextMenu } from '@/hooks/useContextMenu'
@@ -12,7 +12,7 @@ export const Routes = () => {
   const pathName = usePathname()
   const router = useRouter()
 
-  const routes = useMemo(
+  const routes: RouteType[] = useMemo(
     () =>
       ROUTES.map(({ icon, name }) => {
         const path = `/${name.replace(' ', '').toLowerCase()}`
@@ -22,7 +22,7 @@ export const Routes = () => {
   )
 
   const [selectedRoute, ctxMenuOptions] = useMemo(() => {
-    let selectedRoute = routes[0]
+    let selectedRoute: RouteType | null = null
     const ctxMenuOptions: ContextMenuOption[] = []
 
     for (const route of routes) {
@@ -51,18 +51,29 @@ export const Routes = () => {
     return null
   }
 
-  if (media.lg) {
-    return routes.map((route, i) => (
-      <Route key={route.path} {...route} isSelected={selectedRoute.path === route.path} index={i} />
-    ))
-  }
-
   return (
-    selectedRoute && (
-      <>
-        <Route {...selectedRoute} isSelected index={0} />
-        <Route ref={ctxMenuRef} name='...' index={1} />
-      </>
-    )
+    <>
+      {/* 404 Route */}
+      {!selectedRoute && <Route icon='cross' name='Not found' isSelected index={0} />}
+
+      {/* Desktop Router */}
+      {media.lg ? (
+        routes.map((route, i) => (
+          <Route key={route.path} {...route} isSelected={selectedRoute?.path === route.path} index={i} />
+        ))
+      ) : (
+        <>
+          {/* Mobile Router */}
+          {selectedRoute && <Route {...selectedRoute} isSelected index={0} />}
+          <Route ref={ctxMenuRef} name='...' index={1} />
+        </>
+      )}
+    </>
   )
+}
+
+interface RouteType {
+  path: string
+  name: string
+  icon: IconName
 }
