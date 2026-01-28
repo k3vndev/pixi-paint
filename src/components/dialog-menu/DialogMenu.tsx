@@ -12,7 +12,7 @@ export const DialogMenu = () => {
   const [children, setChildren] = useState<React.ReactNode>()
   const menuId = useRef<string | null>(null)
 
-  const { isOpen, openMenu, closeMenu, style } = useMenuBase({
+  const { isOpen, openMenu, closeMenu, style, refreshPosition } = useMenuBase({
     elementRef,
     transformOrigins: ['center'],
     horizontal: false,
@@ -39,6 +39,7 @@ export const DialogMenu = () => {
   })
 
   useEvent('$close-dialog-menu', closeMenu)
+  useEvent('$refresh-position-dialog-menu', () => refreshPosition())
 
   const blackBGStyle = isOpen ? '' : 'opacity-0 pointer-events-none'
 

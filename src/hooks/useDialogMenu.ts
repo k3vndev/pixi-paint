@@ -20,6 +20,10 @@ export const useDialogMenu = () => {
     document.dispatchEvent(new CustomEvent(EVENTS.CLOSE_DIALOG_MENU))
   }
 
+  const refreshPosition = () => {
+    document.dispatchEvent(new CustomEvent(EVENTS.REFRESH_POSITION_DIALOG_MENU))
+  }
+
   useEvent(
     '$dialog-menu-closed',
     e => {
@@ -29,5 +33,5 @@ export const useDialogMenu = () => {
     { deps: [openId] }
   )
 
-  return { openMenu, closeMenu, menuIsOpen: !!openId }
+  return { openMenu, closeMenu, refreshPosition, menuIsOpen: !!openId }
 }

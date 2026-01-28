@@ -1,8 +1,7 @@
 import type { IconName, ReusableComponent } from '@types'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { ColoredPixelatedImage } from '@/components/images/ColoredPixelatedImage'
-import { useTimeout } from '@/hooks/time/useTimeout'
 import { useEvent } from '@/hooks/useEvent'
 
 type Props = {
@@ -11,6 +10,7 @@ type Props = {
   allowMultipleFiles?: boolean
   acceptedFormats: string[]
   onDropOrSelect: (contents: string[]) => void
+  refreshPosition?: () => void
 } & ReusableComponent
 
 export const DMDragNDrop = ({
@@ -20,14 +20,14 @@ export const DMDragNDrop = ({
   allowMultipleFiles = false,
   acceptedFormats,
   onDropOrSelect,
+  refreshPosition = () => {},
   ...props
 }: Props) => {
-  const [isDragginOver, setIsDraggingOver] = useState(false)
-  const { startTimeout, stopTimeout } = useTimeout()
-  const DRAG_OVER_MIN = 220
+  const [isDraggingOver, setIsDraggingOver] = useState(false)
 
   useEvent('drop', (e: DragEvent) => {
     e.preventDefault()
+    setIsDraggingOver(false)
 
     if (e.dataTransfer) {
       const { files } = e.dataTransfer
@@ -37,12 +37,16 @@ export const DMDragNDrop = ({
 
   useEvent('dragover', (e: DragEvent) => {
     e.preventDefault()
-    setIsDraggingOver(true)
+    e.stopPropagation()
 
-    stopTimeout()
-    startTimeout(() => {
-      setIsDraggingOver(false)
-    }, DRAG_OVER_MIN)
+    setIsDraggingOver(true)
+  })
+
+  useEvent('dragend', (e: DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    setIsDraggingOver(false)
   })
 
   const handleClick = () => {
@@ -90,7 +94,11 @@ export const DMDragNDrop = ({
     onDropOrSelect(validContents)
   }
 
-  const [twBaseStyles, twIconStyles, text] = isDragginOver
+  useEffect(() => {
+    refreshPosition()
+  }, [isDraggingOver])
+
+  const [twBaseStyles, twIconStyles, text] = isDraggingOver
     ? ['border-theme-10 animate-pulse', 'animate-bounce', 'Drop your files here!']
     : ['', '', children]
 
