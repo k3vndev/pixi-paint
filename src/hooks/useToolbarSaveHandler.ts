@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { BLANK_DRAFT, COLOR_PALETTE } from '@/consts'
 import { useCanvasesStore } from '@/store/useCanvasesStore'
 import { usePaintStore } from '@/store/usePaintStore'
@@ -20,7 +20,7 @@ export const useToolbarSaveHandler = () => {
   const refs = useFreshRefs({ editingPixels, draft })
   const { paintBucketPixels } = useBucketPixels()
 
-  const isDraft = editingCanvasId === null
+  const isDraft = useMemo(() => editingCanvasId === null, [editingCanvasId])
 
   const newBlankDraftAction = () => {
     setEditingCanvasId(null)

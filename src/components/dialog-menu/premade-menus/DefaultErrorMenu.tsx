@@ -23,6 +23,8 @@ export const DefaultErrorMenu = ({ header, paragraph1, paragraph2, button }: Pro
       <DMParagraph>{paragraph1}</DMParagraph>
       {paragraph2 && <DMParagraph remark>{paragraph2}</DMParagraph>}
     </DMParagraphsZone>
-    <DMButton icon={button.icon}>{button.label}</DMButton>
+    <DMButton className='mt-3' icon={button.icon}>
+      {button.label}
+    </DMButton>
   </>
 )

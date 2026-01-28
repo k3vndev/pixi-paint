@@ -11,7 +11,15 @@ type Props = {
   index: number
 } & ReusableComponent
 
-export const Route = ({ name, icon, path, isSelected = false, className = '', index, ...props }: Props) => {
+export const RouteTile = ({
+  name,
+  icon,
+  path,
+  isSelected = false,
+  className = '',
+  index,
+  ...props
+}: Props) => {
   const router = useRouter()
 
   const handleClick = () => {

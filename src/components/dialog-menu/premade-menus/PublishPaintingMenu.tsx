@@ -68,22 +68,20 @@ export const PublishPaintingMenu = ({ canvasRef, canvasId, dataUrl }: Props) => 
           setUserPublishedCanvasesIds(ids => ids?.add(canvasId))
         }
 
-        const { header, button, paragraphs } = isConflictError
+        const { header, paragraphs } = isConflictError
           ? {
               header: 'Sorry, but...',
               paragraphs: [
                 "It's nothing personal, but a very similar painting has already been published.",
                 "Published paintings must be unique, so we can't accept yours right now... unless you tweak it a bit."
-              ],
-              button: 'Okay, I guess...'
+              ]
             }
           : {
               header: 'Whoops!',
               paragraphs: [
                 'Something unexpected happened on our side while trying to publish your canvas.',
                 'Please wait a few minutes and try again.'
-              ],
-              button: 'Sure, whatever...'
+              ]
             }
 
         openMenu(
@@ -91,7 +89,7 @@ export const PublishPaintingMenu = ({ canvasRef, canvasId, dataUrl }: Props) => 
             header={{ icon: 'warning', label: header }}
             paragraph1={paragraphs[0]}
             paragraph2={paragraphs[1]}
-            button={{ label: button }}
+            button={{ label: 'Sure, whatever...', icon: 'broken-heart' }}
           />
         )
       }

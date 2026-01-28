@@ -11,7 +11,7 @@ import { ImportPaintingsMenu } from '../dialog-menu/premade-menus/ImportPainting
 import { CreationsHeaderButton } from './CreationsHeaderButton'
 
 export const CreationsHeader = ({ className = '', ...props }: ReusableComponent) => {
-  const { openMenu, closeMenu, menuIsOpen } = useDialogMenu()
+  const { openMenu, menuIsOpen } = useDialogMenu()
   const savedCanvases = useCanvasesStore(s => s.savedCanvases)
   const hydrated = useCanvasesStore(s => s.hydrated)
 
@@ -71,7 +71,7 @@ export const CreationsHeader = ({ className = '', ...props }: ReusableComponent)
     setHasTallHeader(false)
   }, [isOnSelectionMode])
 
-  const openImportPaintingsMenu = () => openMenu(<ImportPaintingsMenu {...{ closeMenu }} />)
+  const openImportPaintingsMenu = () => openMenu(<ImportPaintingsMenu />)
 
   const buttons: CreationsButtonType[] = isOnSelectionMode
     ? [

@@ -6,7 +6,7 @@ import { ToolBar } from './toolbar/Toolbar'
 
 interface Props {
   disabled?: boolean
-  toolbarExtraItem?: React.ReactNode
+  toolbarItemSlot?: React.ReactNode
   outlineConfig?: CanvasOutlineConfig
   hideColorbarSelector?: boolean
 }
@@ -14,7 +14,7 @@ interface Props {
 export const PaintWorkspace = ({
   disabled = false,
   outlineConfig = {},
-  toolbarExtraItem,
+  toolbarItemSlot,
   hideColorbarSelector = false
 }: Props) => {
   const disabledStyle = disabled ? 'pointer-events-none opacity-25' : 'opacity-100'
@@ -28,7 +28,7 @@ export const PaintWorkspace = ({
     <PaintWorkspaceContext.Provider value={{ disabled, elementStyle, outlineConfig, hideColorbarSelector }}>
       <PaintCanvas />
 
-      <ToolBar extraItem={toolbarExtraItem} />
+      <ToolBar itemSlot={toolbarItemSlot} />
       <Colorbar />
     </PaintWorkspaceContext.Provider>
   )

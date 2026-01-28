@@ -111,11 +111,13 @@ export const CreationsCanvas = ({ id, pixels, dataUrl, isVisible }: GalleryCanva
       return c
     })
 
-    // Add new id to user published canvases ids
-    requestAnimationFrame(() => {
-      const { id } = refs.current.savedCanvases[nextCanvasIndex]
-      setUserPublishedCanvasesIds(ids => ids?.add(id))
-    })
+    // Keep published status if applicable
+    if (isPublished) {
+      requestAnimationFrame(() => {
+        const { id } = refs.current.savedCanvases[nextCanvasIndex]
+        setUserPublishedCanvasesIds(ids => ids?.add(id))
+      })
+    }
   }
 
   const openDeletePaintingsMenu = () => {
@@ -218,11 +220,11 @@ export const CreationsCanvas = ({ id, pixels, dataUrl, isVisible }: GalleryCanva
       {/* Indicators */}
       <div
         className={`
-          absolute w-full p-[var(--creations-canvas-pad)] 
+          absolute w-full p-(--creations-canvas-pad)
           pt-0 flex items-center bottom-0
         `}
       >
-        {isDraft && <CreationCanvasIndicator className='px-3'>DRAFT</CreationCanvasIndicator>}
+        {isDraft && <CreationCanvasIndicator className='px-2 sm:px-3'>DRAFT</CreationCanvasIndicator>}
         {userPublishedCanvasesIds !== undefined && (
           <div className='flex ml-auto gap-2.5'>
             {isCurrentlyEditing && <CreationCanvasIndicator icon='pencil' />}
