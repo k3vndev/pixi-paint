@@ -90,6 +90,7 @@ export const ICON_NAMES = [
   'upload',
   'publish',
   'heart',
+  'broken-heart',
   'image',
   'code',
   'selection-mode',

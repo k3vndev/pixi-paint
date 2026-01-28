@@ -37,7 +37,7 @@ export const DMButton = ({
   return (
     <button
       className={twMerge(`
-        flex items-center font-semibold text-theme-10 border-2 
+        flex items-center font-semibold text-theme-10 border-2
         md:px-6 px-4 md:py-2.5 py-2 md:text-2xl text-xl md:gap-2 gap-1
         rounded-lg button text-nowrap ${bgStyle} disabled:animate-none ${className}
       `)}
