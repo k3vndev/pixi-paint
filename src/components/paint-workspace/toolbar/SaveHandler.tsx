@@ -8,6 +8,7 @@ import { useTimeout } from '@/hooks/time/useTimeout'
 import { useConfetti } from '@/hooks/useConfetti'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useDialogMenu } from '@/hooks/useDialogMenu'
+import { useEvent } from '@/hooks/useEvent'
 import { useOverwriteDraft } from '@/hooks/useOverwriteDraft'
 import { useToolbarSaveHandler } from '@/hooks/useToolbarSaveHandler'
 import { useTooltip } from '@/hooks/useTooltip'
@@ -95,6 +96,18 @@ export const SaveHandler = () => {
 
   const tooltipText = isDraft ? 'Click to save...' : 'Painting saved!'
   useTooltip({ ref: elementRef, text: tooltipText, showWhen: !ctxMenuIsOpen })
+
+  // Handle save shortcut
+  useEvent(
+    'keydown',
+    (e: KeyboardEvent) => {
+      if (e.key === 's' && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault()
+        handleClick()
+      }
+    },
+    { deps: [isDraft] }
+  )
 
   const handleClick = () => {
     if (isDraft) {

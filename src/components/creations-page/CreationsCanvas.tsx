@@ -111,11 +111,13 @@ export const CreationsCanvas = ({ id, pixels, dataUrl, isVisible }: GalleryCanva
       return c
     })
 
-    // Add new id to user published canvases ids
-    requestAnimationFrame(() => {
-      const { id } = refs.current.savedCanvases[nextCanvasIndex]
-      setUserPublishedCanvasesIds(ids => ids?.add(id))
-    })
+    // Keep published status if applicable
+    if (isPublished) {
+      requestAnimationFrame(() => {
+        const { id } = refs.current.savedCanvases[nextCanvasIndex]
+        setUserPublishedCanvasesIds(ids => ids?.add(id))
+      })
+    }
   }
 
   const openDeletePaintingsMenu = () => {

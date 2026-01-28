@@ -4,7 +4,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useMemo, useRef } from 'react'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useResponsiveness } from '@/hooks/useResponsiveness'
-import { Route } from './Route'
+import { RouteTile } from './RouteTile'
 
 export const Routes = () => {
   const { media, loaded } = useResponsiveness()
@@ -54,18 +54,18 @@ export const Routes = () => {
   return (
     <>
       {/* 404 Route */}
-      {!selectedRoute && <Route icon='cross' name='Not found' isSelected index={0} />}
+      {!selectedRoute && <RouteTile icon='cross' name='Not found' isSelected index={0} />}
 
       {/* Desktop Router */}
       {media.lg ? (
         routes.map((route, i) => (
-          <Route key={route.path} {...route} isSelected={selectedRoute?.path === route.path} index={i} />
+          <RouteTile key={route.path} {...route} isSelected={selectedRoute?.path === route.path} index={i} />
         ))
       ) : (
         <>
           {/* Mobile Router */}
-          {selectedRoute && <Route {...selectedRoute} isSelected index={0} />}
-          <Route ref={ctxMenuRef} name='...' index={1} />
+          {selectedRoute && <RouteTile {...selectedRoute} isSelected index={0} />}
+          <RouteTile ref={ctxMenuRef} name='...' index={1} />
         </>
       )}
     </>
