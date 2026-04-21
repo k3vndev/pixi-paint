@@ -27,7 +27,7 @@ export const DMCanvasImage = ({ pixels, dataUrl, className = '', ref, style }: P
     <div
       ref={ref ?? canvasRef}
       className={twMerge(`
-        md:size-38 md:min-w-38 size-42 min-w-42 aspect-square 
+        md:size-40 md:min-w-40 size-32 min-w-32 aspect-square 
         perspective-distant transition-transform duration-300 hover:scale-110
         flex justify-center items-center
         ${className}

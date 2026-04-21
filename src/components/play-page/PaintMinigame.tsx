@@ -1,4 +1,5 @@
 import { BLANK_PIXELS, EVENTS } from '@consts'
+import confetti from 'canvas-confetti'
 import { useState } from 'react'
 import { useCanvasOutlineTimer } from '@/hooks/canvas/useCanvasOutlineTimer'
 import { useWait } from '@/hooks/time/useWait'
@@ -9,15 +10,10 @@ import { usePaintStore } from '@/store/usePaintStore'
 import { calcPaintingsSimilarity } from '@/utils/calcPaintingsSimilarity'
 import { dispatchCustomEvent } from '@/utils/dispatchCustomEvent'
 import { getRandomItem } from '@/utils/getRandomItem'
-import { DMButton } from '../dialog-menu/DMButton'
-import { DMCanvasImage } from '../dialog-menu/DMCanvasImage'
-import { DMHeader } from '../dialog-menu/DMHeader'
-import { DMParagraph } from '../dialog-menu/DMParagraph'
-import { DMZone } from '../dialog-menu/DMZone'
-import { DMZoneButtons } from '../dialog-menu/DMZoneButtons'
 import { PaintWorkspace } from '../paint-workspace/PaintWorkspace'
 import type { CanvasOutlineConfig } from '../paint-workspace/paint-canvas/CanvasOutline'
 import { FinishGameButton } from './FinishGameButton'
+import { ResultsMenu } from './ResultsMenu'
 import { TitleDisplay, useTitleDisplay } from './TitleDisplay'
 
 export const PaintMinigame = () => {
@@ -146,26 +142,19 @@ export const PaintMinigame = () => {
     // Calculate results
     const score = calcPaintingsSimilarity(originalPixels, refs.current.editingPixels)
 
+    // Throw confetti if they did really well
+    if (score > 0.85) {
+      confetti({ zIndex: 99999999999999 })
+    }
+
     // Open results menu
     openMenu(
-      <>
-        <DMHeader icon='gamepad'>Your results :)</DMHeader>
-        <DMParagraph>You got a score of {(score * 100).toFixed(0)}%</DMParagraph>
-
-        <DMZone className='flex gap-4'>
-          <DMCanvasImage pixels={originalPixels} />
-          <DMCanvasImage pixels={refs.current.editingPixels} />
-        </DMZone>
-
-        <DMZoneButtons>
-          <DMButton icon='cross' empty>
-            Minigames selection
-          </DMButton>
-          <DMButton icon='gamepad' onClick={restartMinigame}>
-            Play again
-          </DMButton>
-        </DMZoneButtons>
-      </>
+      <ResultsMenu
+        score={score}
+        originalPixels={originalPixels}
+        editingPixels={refs.current.editingPixels}
+        restartMinigame={restartMinigame}
+      />
     )
   }
 
