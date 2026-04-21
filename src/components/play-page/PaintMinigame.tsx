@@ -1,4 +1,4 @@
-import { BLANK_PIXELS } from '@consts'
+import { BLANK_PIXELS, EVENTS } from '@consts'
 import { useState } from 'react'
 import { useCanvasOutlineTimer } from '@/hooks/canvas/useCanvasOutlineTimer'
 import { useWait } from '@/hooks/time/useWait'
@@ -7,6 +7,7 @@ import { useFreshRefs } from '@/hooks/useFreshRefs'
 import { usePlayMinigame } from '@/hooks/usePlayMinigame'
 import { usePaintStore } from '@/store/usePaintStore'
 import { calcPaintingsSimilarity } from '@/utils/calcPaintingsSimilarity'
+import { dispatchCustomEvent } from '@/utils/dispatchCustomEvent'
 import { getRandomItem } from '@/utils/getRandomItem'
 import { DMButton } from '../dialog-menu/DMButton'
 import { DMCanvasImage } from '../dialog-menu/DMCanvasImage'
@@ -16,11 +17,13 @@ import { DMZone } from '../dialog-menu/DMZone'
 import { DMZoneButtons } from '../dialog-menu/DMZoneButtons'
 import { PaintWorkspace } from '../paint-workspace/PaintWorkspace'
 import type { CanvasOutlineConfig } from '../paint-workspace/paint-canvas/CanvasOutline'
+import { FinishGameButton } from './FinishGameButton'
 import { TitleDisplay, useTitleDisplay } from './TitleDisplay'
 
 export const PaintMinigame = () => {
   const [isShowingCanvas, setIsShowingCanvas] = useState(false)
   const [canvasIsDisabled, setCanvasIsDisabled] = useState(true)
+  const [finishGameButtonDisabled, setFinishGameButtonDisabled] = useState(true)
 
   const editingPixels = usePaintStore(s => s.pixels)
   const setEditingPixels = usePaintStore(s => s.setPixels)
@@ -73,6 +76,7 @@ export const PaintMinigame = () => {
     try {
       const originalPixels = pickRandomMinigamePainting()
       setEditingPixels(SEMI_TRANSPARENT_PIXELS)
+      setFinishGameButtonDisabled(true)
 
       await wait.forSeconds(0.1)
       setIsShowingCanvas(true)
@@ -107,6 +111,7 @@ export const PaintMinigame = () => {
       displayTitle('Paint!')
       await wait.forSeconds(0.7)
       hideTitle()
+      setFinishGameButtonDisabled(false)
 
       outlineTimer.reset()
       setTimerIsVisible(true)
@@ -119,7 +124,8 @@ export const PaintMinigame = () => {
       await wait.forSeconds(0.2)
       setCanvasIsDisabled(true)
 
-      displayTitle('Time up!')
+      displayTitle("Time's up!")
+      outlineTimer.complete()
       await wait.forSeconds(0.7)
       hideTitle()
 
@@ -130,9 +136,11 @@ export const PaintMinigame = () => {
   }
 
   const { animateSetPixels, pickRandomMinigamePainting, SEMI_TRANSPARENT_PIXELS, restartMinigame } =
-    usePlayMinigame({
-      mainSequence
-    })
+    usePlayMinigame({ mainSequence })
+
+  const finishGame = () => {
+    dispatchCustomEvent(EVENTS.OUTLINE_TIMER_TIMED_UP)
+  }
 
   const showResultsScreen = (originalPixels: string[]) => {
     // Calculate results
@@ -168,6 +176,7 @@ export const PaintMinigame = () => {
           disabled={canvasIsDisabled}
           outlineConfig={canvasOutlineConfig}
           hideColorbarSelector
+          toolbarItemSlot={<FinishGameButton disabled={finishGameButtonDisabled} onClick={finishGame} />}
         />
       )}
 

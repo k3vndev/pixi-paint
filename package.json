@@ -12,9 +12,10 @@
     "@k3vndev/tw-animations": "^0.3.0",
     "@types/canvas-confetti": "^1.9.0",
     "canvas-confetti": "^1.9.3",
+    "clsx": "^2.1.1",
     "jszip": "^3.10.1",
     "mongoose": "^8.18.1",
-    "next": "15.4.11",
+    "next": "15.5.15",
     "react": "19.1.0",
     "react-colorful": "^5.6.1",
     "react-dom": "19.1.0",
@@ -23,7 +24,7 @@
     "zustand": "5.0.6"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.2",
+    "@biomejs/biome": "2.4.12",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

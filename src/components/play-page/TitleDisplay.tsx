@@ -1,5 +1,6 @@
+import { Z_INDEX } from '@consts'
 import { useState } from 'react'
-import { Z_INDEX } from '@/consts'
+import { cn } from '@/utils/cn'
 
 interface TitleDisplayState {
   messages: string[]
@@ -11,36 +12,32 @@ export const TitleDisplay = ({ messages, show }: TitleDisplayState) => {
     ? 'animate-slide-in-t anim-ease-out-back anim-duration-600'
     : 'animate-slide-out-b anim-duration-350'
 
-  return messages.length ? (
+  if (!messages.length) return null
+
+  return (
     <span
-      className={`
-        absolute text-theme-10 ${Z_INDEX.TOOLTIP} ${visibility}
-        bg-theme-bg/90 lg:p-6 py-3 px-2 backdrop-blur-xl pointer-events-none
-        lg:rounded-3xl rounded-2xl border-2 border-theme-20 shadow-card
-        anim-opacity-0 anim-fill-both anim-blur-md
-      `}
+      className={cn(
+        'absolute text-theme-10 bg-theme-bg/90 lg:p-6 py-3 px-2 backdrop-blur-xl pointer-events-none lg:rounded-3xl rounded-2xl border-2 border-theme-20 shadow-card anim-opacity-0 anim-fill-both anim-blur-md',
+        Z_INDEX.TOOLTIP,
+        visibility
+      )}
     >
-      <div
-        className={`
-          flex flex-col lg:gap-2 items-center lg:px-8 px-4
-          lg:border-x-4 border-x-3 border-theme-10/25 border-dashed
-        `}
-      >
+      <div className='flex flex-col lg:gap-2 items-center lg:px-8 px-4 lg:border-x-4 border-x-3 border-theme-10/25 border-dashed'>
         {messages.map((msg, i) => (
           <span
             key={i}
-            className={`${
-              !i
-                ? 'font-bold lg:text-5xl sm:text-3xl text-xl animate-pulse-brightness'
-                : 'font-semibold lg:text-4xl sm:text-2xl text-lg'
-            }`}
+            className={cn(
+              i
+                ? 'font-semibold lg:text-4xl sm:text-2xl text-lg'
+                : 'font-bold lg:text-5xl sm:text-3xl text-xl animate-pulse-brightness'
+            )}
           >
             {msg}
           </span>
         ))}
       </div>
     </span>
-  ) : null
+  )
 }
 
 export const useTitleDisplay = () => {

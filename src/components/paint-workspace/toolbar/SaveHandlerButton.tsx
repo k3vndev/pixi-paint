@@ -15,7 +15,7 @@ import { useTooltip } from '@/hooks/useTooltip'
 import { usePaintStore } from '@/store/usePaintStore'
 import { Item } from './Item'
 
-export const SaveHandler = () => {
+export const SaveHandlerButton = () => {
   const { createNewSave, newBlankDraftAction, refs, isDraft, elementRef } = useToolbarSaveHandler()
   const { spriteSize } = useToolbarContext()
 
@@ -130,31 +130,26 @@ export const SaveHandler = () => {
   const checkSize = spriteSize * 0.8
 
   return (
-    <Item
-      onClick={handleClick}
-      className={`
-        flex items-center justify-center relative
-        not-lg:ml-1 not-lg:rounded-full not-lg:scale-90 ${colorOverride}
-      `}
-      ref={elementRef}
-    >
-      <PixelatedImage
-        resolution={SPRITES_RESOLUTION}
-        src='/imgs/save.png'
-        imageSize={spriteSize}
-        alt='Save icon'
-      />
-      <ColoredPixelatedImage
-        icon='check'
-        className={`
-          absolute bg-theme-10 left-1/2 top-1/2 -translate-1/3
-          transition-all duration-200 ${checkOverride}
-        `}
-        style={{
-          width: `${checkSize}px`,
-          height: `${checkSize}px`
-        }}
-      />
-    </Item>
+    <button className='not-lg:ml-1 relative' onClick={handleClick}>
+      <Item
+        className={`flex items-center justify-center not-lg:rounded-full not-lg:scale-90 ${colorOverride}`}
+        ref={elementRef}
+      >
+        <PixelatedImage
+          resolution={SPRITES_RESOLUTION}
+          src='/imgs/save.png'
+          imageSize={spriteSize}
+          alt='Save icon'
+        />
+        <ColoredPixelatedImage
+          icon='check'
+          className={`absolute bg-theme-10 left-1/2 top-1/2 -translate-1/3 transition-all duration-200 ${checkOverride}`}
+          style={{
+            width: `${checkSize}px`,
+            height: `${checkSize}px`
+          }}
+        />
+      </Item>
+    </button>
   )
 }

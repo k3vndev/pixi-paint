@@ -2,8 +2,8 @@
 
 import { PaintWorkspace } from '@@/paint-workspace/PaintWorkspace'
 import type { CanvasOutlineConfig } from '@@/paint-workspace/paint-canvas/CanvasOutline'
-import { SaveHandler } from '@@/paint-workspace/toolbar/SaveHandler'
 import { useEffect, useState } from 'react'
+import { SaveHandlerButton } from '@/components/paint-workspace/toolbar/SaveHandlerButton'
 import { useBodyClassName } from '@/hooks/useBodyClassName'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useDefaultPrevention } from '@/hooks/useDefaultPrevention'
@@ -28,7 +28,7 @@ export default function PaintPage() {
         flex justify-center items-center
       `}
     >
-      <PaintWorkspace toolbarItemSlot={<SaveHandler />} {...{ outlineConfig }} />
+      <PaintWorkspace toolbarItemSlot={<SaveHandlerButton />} {...{ outlineConfig }} />
     </main>
   )
 }
