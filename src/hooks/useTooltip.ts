@@ -9,9 +9,16 @@ interface Params {
   ref: React.RefObject<HTMLElement | null>
   text: string
   showWhen?: boolean
-  waitTime?: number
 }
 
+/**
+ * A hook to show a tooltip when hovering or touching an element.
+ * It dispatches custom events to show/hide the tooltip, which can be listened to by a Tooltip component.
+ * @param params.ref The ref of the element to which the tooltip is attached.
+ * @param params.text The text to be shown in the tooltip.
+ * @param params.showWhen A boolean to control whether the tooltip should be shown or not. Default is true.
+ * @returns An object with a boolean `isShowingTooltip` indicating whether the tooltip is currently being shown.
+ */
 export const useTooltip = ({ ref: elementRef, text, showWhen = true }: Params) => {
   const [isBeingShown, setIsBeingShown] = useState(false)
   const refs = useFreshRefs({ showWhen, text })
